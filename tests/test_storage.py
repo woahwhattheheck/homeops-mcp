@@ -365,6 +365,48 @@ raise RuntimeError('response escaped the commit cut')
         self.assertEqual(restarted.call_tool(INTAKE, issue_args()), expected)
         self.assertEqual(restarted.inspect()["event_count"], 1)
 
+    def test_uncommitted_spill_crash_recovers_hot_journal_before_replay(self):
+        first = self.call_issue()
+        before = self.ledger.inspect()
+        uncommitted = issue_args(
+            "crashed-uncommitted", details="x"*8192,
+            evidence=["y"*2048 for _ in range(16)],
+        )
+        code = r'''
+import json,os,sys
+from homeops_relay.storage import SQLiteHomeOpsLedger
+ledger=SQLiteHomeOpsLedger(sys.argv[1],create=False)
+real_connect=ledger._connect
+class ExitBeforeCommit:
+    def __init__(self,con): self.con=con
+    def __getattr__(self,name): return getattr(self.con,name)
+    def commit(self): os._exit(71)
+def connect(*,readonly=False):
+    con=real_connect(readonly=readonly)
+    if readonly: return con
+    con.execute('PRAGMA cache_size=1')
+    con.execute('PRAGMA cache_spill=ON')
+    return ExitBeforeCommit(con)
+ledger._connect=connect
+ledger.call_tool('homeops.intake_issue',json.loads(sys.argv[2]))
+raise RuntimeError('response escaped the precommit cut')
+'''
+        result = subprocess.run(python_command(code, self.path, json.dumps(uncommitted)), cwd=ROOT, capture_output=True, text=True, timeout=20)
+        self.assertEqual(result.returncode, 71, result.stderr)
+        self.assertEqual(result.stdout, "")
+        journal = Path(str(self.path)+"-journal")
+        self.assertTrue(journal.is_file(), "crash fixture did not leave a rollback journal")
+        self.assertGreaterEqual(journal.stat().st_size, 512)
+        with journal.open("rb") as handle:
+            self.assertNotEqual(handle.read(8), b"\0"*8, "journal header was not hot")
+        restarted = SQLiteHomeOpsLedger(self.path, create=False)
+        self.assertEqual(restarted.inspect(), before)
+        self.assertEqual(restarted.call_tool(INTAKE, issue_args()), first)
+        replayed = restarted.call_tool(INTAKE, uncommitted)
+        self.assertEqual(restarted.call_tool(INTAKE, uncommitted), replayed)
+        self.assertEqual(restarted.inspect()["operation_count"], 2)
+        self.assertEqual(self.ledger.inspect(), restarted.inspect())
+
     def test_create_false_missing_path_and_empty_file_are_refused(self):
         missing = self.root / "missing.sqlite3"
         with self.assertRaises(StorageError):

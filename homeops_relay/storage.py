@@ -198,8 +198,11 @@ class SQLiteHomeOpsLedger:
         try:
             if not self.path.is_file() or self.path.stat().st_size > MAX_DATABASE_BYTES:
                 raise StorageError("database is absent, not a file, or exceeds the size bound")
-            mode = "ro" if readonly else "rw"
-            conn = sqlite3.connect(self.path.as_uri() + "?mode=" + mode,
+            # A domain read may need SQLite's automatic hot-journal rollback
+            # after a crashed writer. mode=rw permits that recovery but cannot
+            # create a missing file; query_only below still forbids read SQL
+            # from changing domain rows. The local database must be writable.
+            conn = sqlite3.connect(self.path.as_uri() + "?mode=rw",
                                    uri=True, timeout=self.timeout, isolation_level=None)
             try:
                 conn.setlimit(sqlite3.SQLITE_LIMIT_LENGTH, MAX_ROW_BYTES + 16_384)

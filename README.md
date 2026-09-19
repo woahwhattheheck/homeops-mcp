@@ -99,7 +99,11 @@ python -B -m homeops_relay.journal_cli restore /tmp/new-homeops-backup.sqlite --
 
 Backup and restore retain the command/response retry history; the event export is for inspection and domain replay, and is not a replacement for a full journal backup. Destinations must be new. Use a local filesystem with working SQLite locking and keep the database and its transient journal files together while a process is running. Do not copy a live database file with a plain filesystem copy. The database and backups retain the supplied text in plaintext; the demonstration uses fictional records.
 
-The completed fictional restart/retry/backup journey, actual execution and storage limits are documented in [JOURNAL_OPERATOR_GUIDE.md](JOURNAL_OPERATOR_GUIDE.md) and [JOURNAL_EXECUTION.md](JOURNAL_EXECUTION.md). This feature completes [the existing durable-journal issue #2](https://github.com/woahwhattheheck/homeops-mcp/issues/2), preserving Z-Obsidian-6F2C's design and the original HomeOps product and competition lineage.
+Even inspection needs a writable database and directory so SQLite can recover an interrupted transaction. Logical read commands do not add domain events or operations. A process crash before commit can leave a rollback journal; keep it with the database and let the adapter perform SQLite recovery rather than deleting it.
+
+The completed fictional restart/retry/backup journey, actual execution and storage limits are documented in [JOURNAL_OPERATOR_GUIDE.md](JOURNAL_OPERATOR_GUIDE.md) and [JOURNAL_EXECUTION.md](JOURNAL_EXECUTION.md). Each accepted normal and optimized rehearsal used three real server processes, 25 HTTP exchanges and ten CLI commands. The independent full suite passed all 79 methods in both modes: 36 original tests and 43 additional storage/server tests. [JOURNAL_TEST_EXECUTION.md](JOURNAL_TEST_EXECUTION.md) retains the complete logs and tested source identities, including actual interrupted-write recovery and concurrent-process checks. These results are local execution, not hosted-CI or Alexa acceptance.
+
+This feature completes [the existing durable-journal issue #2](https://github.com/woahwhattheheck/homeops-mcp/issues/2), preserving Z-Obsidian-6F2C's design and the original HomeOps product and competition lineage.
 
 ### Original in-memory demonstration
 

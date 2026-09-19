@@ -42,6 +42,27 @@ Successful commands print JSON and exit 0. Validation, storage and output failur
 
 Receipts and snapshot digests describe logical state. A backup's SQLite file bytes need not equal the live database's bytes, especially when a live database has journal files. Compare validated counts, receipt and snapshot digest through `inspect`; do not infer that a copied event export preserves durable operations.
 
+The database and its directory must be writable even for inspection: SQLite may need to recover an interrupted rollback transaction when opening an existing journal. Logical read queries add no domain events, but recovery can change physical file bytes. Do not delete pending SQLite journal files. The database and JSON export retain supplied record text without application-level encryption.
+
+## Implemented storage bounds
+
+| Bound | Limit |
+|---|---|
+| Retained domain events and operation records | 10,000 each |
+| Supplied argument JSON, including operation ID | 65,536 UTF-8 bytes |
+| Canonical tool name/argument request, excluding operation ID | 65,536 UTF-8 bytes |
+| Combined request, event and response JSON in one operation row | 196,608 UTF-8 bytes |
+| Total retained request, event and response JSON | 64 MiB |
+| Existing database file admitted when opening | 128 MiB |
+| JSON depth and nodes, per document | Depth 32 with root at depth 0; 20,000 nodes |
+| Storage timeout | Default 5 seconds; configurable API values greater than 0 and at most 60 seconds |
+
+These bounds supplement the existing domain-field and HTTP request limits. The journal validates retained data before using it; exceeding a bound is an error rather than permission to discard earlier records. Backup uses the configured timeout for its destination connection and progress deadline.
+
+SQLite serializes database writers. This implementation starts each mutating journal transaction with `BEGIN IMMEDIATE`, so operation-ID lookup and the new event/response are handled within one writer transaction. Separate connections see committed state. [SQLite isolation reference](https://www.sqlite.org/isolation.html)
+
+The backup path holds a read transaction and uses SQLite's backup API to copy a consistent database snapshot, then validates the copied journal. Both events and operation records are retained. This differs from copying a live database file without coordinating its journal state. [SQLite backup reference](https://www.sqlite.org/backup.html)
+
 ## Run the fictional process rehearsal
 
 Use Python 3.11 or newer and choose a new output directory for each mode:
@@ -55,4 +76,6 @@ The scenario supplies a fictional sticking-drawer observation and a fictional un
 
 The output retains server commands and logs, CLI argument vectors/stdout/stderr/exits, and HTTP request/response bodies. Session header values are not retained; records indicate whether session headers were sent or received. `rehearsal.json` is written only after the expected results have been observed. Failed runs can leave logs and partial artifacts without that completion record. The script terminates only the server child processes it starts.
 
-[JOURNAL_EXECUTION.md](JOURNAL_EXECUTION.md) records the actual accepted results and source identities. This local process rehearsal does not claim Alexa integration, browser behavior, remote deployment, hosted CI, provider contact or external execution.
+Both normal and real optimized runs passed on 19 September 2026. Each retained three actual server processes, 25 HTTP exchanges and ten CLI commands. Restart and restored-decision retries preserved their original payloads; the changed retry was rejected without a new event. Original and backup journals remained at four events/four operations while the restored journal advanced to five after one new supplied issue. Both modes produced identical logical receipts and snapshots.
+
+[JOURNAL_EXECUTION.md](JOURNAL_EXECUTION.md) records those accepted results, literal evidence locations and source identities. This local process rehearsal does not claim Alexa integration, browser behavior, remote deployment, hosted CI, provider contact or external execution.
