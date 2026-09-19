@@ -14,6 +14,7 @@ from pathlib import Path
 import re
 import sqlite3
 import tempfile
+import time
 from typing import Any
 
 from .homeops import HomeOpsLedger, MAX_EVENTS, ValidationError
@@ -397,8 +398,16 @@ class SQLiteHomeOpsLedger:
             descriptor = os.open(target, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
             os.close(descriptor)
             created = True
-            copy = sqlite3.connect(target.as_uri() + "?mode=rw", uri=True, isolation_level=None)
-            source.backup(copy)
+            copy = sqlite3.connect(target.as_uri() + "?mode=rw", uri=True,
+                                   timeout=self.timeout, isolation_level=None)
+            deadline = time.monotonic() + self.timeout
+
+            def progress(_status: int, _remaining: int, _total: int) -> None:
+                if time.monotonic() >= deadline:
+                    raise StorageError("backup exceeded its timeout; retry to a new destination")
+
+            source.backup(copy, pages=256, progress=progress,
+                          sleep=min(0.05, self.timeout))
             copy.close()
             copy = None
             source.rollback()

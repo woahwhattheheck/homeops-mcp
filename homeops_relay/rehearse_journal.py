@@ -38,6 +38,8 @@ def save(path: Path, value: object) -> None:
 
 
 def rehearse(output: Path) -> dict:
+    if sys.version_info < (3, 11):
+        raise RehearsalError("durable journal rehearsal requires Python 3.11 or newer")
     output = output.absolute()
     output.mkdir(parents=True, exist_ok=False)
     commands_dir = output / "commands"

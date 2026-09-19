@@ -1,6 +1,6 @@
 # HomeOps durable journal operator guide
 
-The optional SQLite journal retains HomeOps events and operation IDs across server restarts. The original domain engine and proposal-only behavior remain in place. A recorded owner `APPROVE` still produces `APPROVED_NOT_EXECUTED`; it does not contact a provider or execute a purchase, visit or payment. Original project authorship remains in the repository history and existing source.
+The optional SQLite journal retains HomeOps events and operation IDs across server restarts. Durable mode, the journal CLI and the journal rehearsal require **Python 3.11 or newer**, including SQLite connection limit support. The original ephemeral server retains its Python 3.10 minimum. The original domain engine and proposal-only behavior remain in place. A recorded owner `APPROVE` still produces `APPROVED_NOT_EXECUTED`; it does not contact a provider or execute a purchase, visit or payment. Original project authorship remains in the repository history and existing source.
 
 ## Start with durable storage
 
@@ -44,7 +44,7 @@ Receipts and snapshot digests describe logical state. A backup's SQLite file byt
 
 ## Run the fictional process rehearsal
 
-Choose a new output directory for each mode:
+Use Python 3.11 or newer and choose a new output directory for each mode:
 
 ```sh
 python -B -m homeops_relay.rehearse_journal --output-dir /tmp/homeops-rehearsal-normal
