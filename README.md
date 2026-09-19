@@ -55,7 +55,7 @@ An optional SQLite journal now retains commands, their original responses and th
 
 ## Run locally
 
-Requires Python 3.10+ and the standard library only.
+The original in-memory mode requires Python 3.10+ and the standard library only. The optional SQLite journal requires Python 3.11+ for the connection's runtime size-limit API; unsupported durable startup reports a contained error before creating a database.
 
 ```bash
 git clone https://github.com/woahwhattheheck/homeops-mcp.git
@@ -74,7 +74,7 @@ For an intentional remote deployment, set `HOMEOPS_HOST=0.0.0.0` together with `
 
 ### Retain history across restarts
 
-Choose a new database path inside an existing local directory:
+With Python 3.11 or newer, choose a new database path inside an existing local directory:
 
 ```sh
 HOMEOPS_DB_PATH=/tmp/homeops-demo.sqlite python -B -m homeops_relay.mcp_server
