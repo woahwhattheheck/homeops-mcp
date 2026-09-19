@@ -12,6 +12,7 @@ from typing import Any
 from urllib.parse import urlparse
 
 from .homeops import HomeOpsLedger, ValidationError
+from .storage import SQLiteHomeOpsLedger, StorageError, UncertainCommitError
 
 MCP_PROTOCOL_VERSION = "2025-11-25"
 SERVER_INFO = {"name": "homeops-relay", "version": "1.0.0"}
@@ -64,8 +65,11 @@ def _require_impl_info(value: Any, field: str) -> dict[str, Any]:
 
 
 class Dispatcher:
-    def __init__(self, ledger: HomeOpsLedger | None = None) -> None:
-        self.ledger = ledger or HomeOpsLedger()
+    def __init__(self, ledger: HomeOpsLedger | SQLiteHomeOpsLedger | None = None, *, durable_path: str | None = None) -> None:
+        if ledger is not None and durable_path is not None:
+            raise ValidationError("choose either an explicit ledger or durable_path")
+        self.ledger = (SQLiteHomeOpsLedger(durable_path) if durable_path is not None
+                       else ledger if ledger is not None else HomeOpsLedger())
         # ThreadingHTTPServer can dispatch concurrent tool calls. Serialize access
         # to the append-only in-memory ledger so sequence IDs and receipt chaining
         # cannot race.
@@ -104,7 +108,7 @@ class Dispatcher:
                 cursor = params.get("cursor")
                 if cursor not in (None, ""):
                     raise ValidationError("unknown pagination cursor")
-                result = {"tools": HomeOpsLedger.tool_definitions()}
+                result = {"tools": self.ledger.tool_definitions()}
             elif method == "tools/call":
                 with self._tool_lock:
                     result = self._tools_call(params)
@@ -133,11 +137,16 @@ class Dispatcher:
         # MCP version negotiation requires the server to return the requested
         # version if supported; otherwise it returns a version it supports.
         negotiated = MCP_PROTOCOL_VERSION
+        instructions = "HomeOps Relay records evidence and proposes household actions. External effects remain owner-gated and are never executed by this server."
+        if isinstance(self.ledger, SQLiteHomeOpsLedger):
+            instructions += (" Durable history is configured. Mutating tools require operation_id."
+                             " After an interrupted or uncertain response, retry the identical"
+                             " tool arguments with the same operation_id; do not invent a new ID.")
         return {
             "protocolVersion": negotiated,
             "capabilities": {"tools": {"listChanged": False}},
             "serverInfo": SERVER_INFO,
-            "instructions": "HomeOps Relay records evidence and proposes household actions. External effects remain owner-gated and are never executed by this server.",
+            "instructions": instructions,
         }
 
     def _tools_call(self, params: dict[str, Any]) -> dict[str, Any]:
@@ -153,6 +162,15 @@ class Dispatcher:
                 "content": [{"type": "text", "text": json.dumps(payload, sort_keys=True, ensure_ascii=False, allow_nan=False)}],
                 "structuredContent": payload,
                 "isError": False,
+            }
+        except StorageError as exc:
+            payload = {"error": str(exc), "storage_error": type(exc).__name__}
+            if isinstance(exc, UncertainCommitError):
+                payload["retry_with_same_operation_id"] = True
+            return {
+                "content": [{"type": "text", "text": json.dumps(payload, sort_keys=True)}],
+                "structuredContent": payload,
+                "isError": True,
             }
         except ValidationError as exc:
             payload = {"error": str(exc)}
@@ -196,9 +214,10 @@ class SessionState:
 
 
 class HomeOpsHTTPServer(ThreadingHTTPServer):
-    def __init__(self, server_address: tuple[str, int], handler: type[BaseHTTPRequestHandler], ledger: HomeOpsLedger | None = None) -> None:
+    def __init__(self, server_address: tuple[str, int], handler: type[BaseHTTPRequestHandler], ledger: HomeOpsLedger | SQLiteHomeOpsLedger | None = None, *, durable_path: str | None = None) -> None:
+        dispatcher = Dispatcher(ledger, durable_path=durable_path)
         super().__init__(server_address, handler)
-        self.dispatcher = Dispatcher(ledger)
+        self.dispatcher = dispatcher
         self.sessions: dict[str, SessionState] = {}
         self.session_lock = threading.RLock()
 
@@ -304,6 +323,14 @@ class HomeOpsRequestHandler(BaseHTTPRequestHandler):
 
     def do_GET(self) -> None:
         if self.path == "/healthz":
+            try:
+                with self.dispatcher._tool_lock:
+                    receipt = self.dispatcher.ledger.receipt
+            except StorageError as exc:
+                self._headers(503)
+                self.wfile.write(_json({"ok": False, "storage_error": type(exc).__name__,
+                                       "error": str(exc)}))
+                return
             self._headers(200)
             with self.app_server.session_lock:
                 sessions = len(self.app_server.sessions)
@@ -312,7 +339,7 @@ class HomeOpsRequestHandler(BaseHTTPRequestHandler):
                     {
                         "ok": True,
                         "protocolVersion": MCP_PROTOCOL_VERSION,
-                        "receipt": self.dispatcher.ledger.receipt,
+                        "receipt": receipt,
                         "active_sessions": sessions,
                     }
                 )
@@ -432,8 +459,8 @@ class HomeOpsRequestHandler(BaseHTTPRequestHandler):
         self.wfile.write(_json(response))
 
 
-def make_server(host: str = "127.0.0.1", port: int = 8000, ledger: HomeOpsLedger | None = None) -> HomeOpsHTTPServer:
-    return HomeOpsHTTPServer((host, port), HomeOpsRequestHandler, ledger)
+def make_server(host: str = "127.0.0.1", port: int = 8000, ledger: HomeOpsLedger | SQLiteHomeOpsLedger | None = None, *, durable_path: str | None = None) -> HomeOpsHTTPServer:
+    return HomeOpsHTTPServer((host, port), HomeOpsRequestHandler, ledger, durable_path=durable_path)
 
 
 def main() -> None:
@@ -441,7 +468,11 @@ def main() -> None:
     if host not in {"127.0.0.1", "localhost", "::1"} and os.environ.get("HOMEOPS_ALLOW_REMOTE_BIND") != "1":
         raise SystemExit("Refusing non-loopback bind without HOMEOPS_ALLOW_REMOTE_BIND=1; terminate TLS/auth at a trusted reverse proxy.")
     port = int(os.environ.get("HOMEOPS_PORT", "8000"))
-    server = make_server(host, port)
+    durable_path = os.environ.get("HOMEOPS_DB_PATH") or None
+    try:
+        server = make_server(host, port, durable_path=durable_path)
+    except StorageError as exc:
+        raise SystemExit(f"HomeOps journal could not be opened: {exc}") from exc
     print(f"HomeOps Relay MCP {MCP_PROTOCOL_VERSION} on http://{host}:{server.server_port}/mcp", flush=True)
     server.serve_forever()
 
