@@ -1,4 +1,4 @@
-"""Inspect, export, back up or restore an existing HomeOps SQLite journal."""
+"""Inspect, export, report, back up or restore an existing HomeOps SQLite journal."""
 from __future__ import annotations
 
 import argparse
@@ -8,6 +8,7 @@ import sqlite3
 import sys
 
 from .homeops import HomeOpsLedger, ValidationError
+from .reporting import render_report
 from .storage import SQLiteHomeOpsLedger
 
 
@@ -23,17 +24,27 @@ def _new_destination(value: str) -> Path:
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     commands = parser.add_subparsers(dest="command", required=True)
-    for name in ("inspect", "export", "backup", "restore"):
+    for name in ("inspect", "export", "report", "backup", "restore"):
         command = commands.add_parser(name)
         command.add_argument("database", help="existing SQLite journal or backup")
         if name != "inspect":
             command.add_argument("--output", required=True, help="new destination path")
+        if name == "report":
+            command.add_argument("--format", choices=("html", "markdown"), default="html",
+                                 help="portable owner handoff format (default: html)")
+            command.add_argument("--issue-id", help="include only this exact issue ID")
     args = parser.parse_args(argv)
     try:
         destination = _new_destination(args.output) if args.command != "inspect" else None
         ledger = SQLiteHomeOpsLedger(args.database, create=False)
         if args.command == "inspect":
             result = ledger.inspect()
+        elif args.command == "report":
+            rendered, result = render_report(ledger.export_events(), output_format=args.format,
+                                             issue_id=args.issue_id)
+            with destination.open("xb") as handle:
+                handle.write(rendered.encode("utf-8"))
+            result["destination"] = str(destination)
         elif args.command == "export":
             # Derive every exported fact from this single retained event sequence.
             # Separate reads of live snapshot/inspect could span another commit.

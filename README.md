@@ -93,11 +93,17 @@ Use the operator commands to inspect, export or copy a consistent database:
 ```sh
 python -B -m homeops_relay.journal_cli inspect /tmp/homeops-demo.sqlite
 python -B -m homeops_relay.journal_cli export /tmp/homeops-demo.sqlite --output /tmp/new-homeops-events.json
+python -B -m homeops_relay.journal_cli report /tmp/homeops-demo.sqlite --output /tmp/new-homeops-handoff.html
+python -B -m homeops_relay.journal_cli report /tmp/homeops-demo.sqlite --format markdown --output /tmp/new-homeops-handoff.md
 python -B -m homeops_relay.journal_cli backup /tmp/homeops-demo.sqlite --output /tmp/new-homeops-backup.sqlite
 python -B -m homeops_relay.journal_cli restore /tmp/new-homeops-backup.sqlite --output /tmp/new-homeops-restored.sqlite
 ```
 
 Backup and restore retain the command/response retry history; the event export is for inspection and domain replay, and is not a replacement for a full journal backup. Destinations must be new. Use a local filesystem with working SQLite locking and keep the database and its transient journal files together while a process is running. Do not copy a live database file with a plain filesystem copy. The database and backups retain the supplied text in plaintext; the demonstration uses fictional records.
+
+`report` creates a portable owner handoff from one validated event sequence. Open the self-contained HTML locally or print it, or use Markdown in a case note. Each issue includes its observations and evidence references, the canonical diagnostic plan, quotes with their exact scope/source/currency, and action proposals with pending or recorded owner decisions and decision evidence notes. Amounts remain integer minor units; the report does not assume currency precision or equate different quote scopes. Approval remains `APPROVED_NOT_EXECUTED`.
+
+Use `--issue-id ISS-...` with an exact ID from `export` to share one issue. The displayed receipt and snapshot digest still identify the complete journal read, and the report states its issue scope. The command prints those identities and included counts as JSON. Reports contain supplied household text in plaintext, retain evidence references without fetching them, add no domain events or operations, and are not backups. HTML has no scripts or remote resources.
 
 Even inspection needs a writable database and directory so SQLite can recover an interrupted transaction. Logical read commands do not add domain events or operations. A process crash before commit can leave a rollback journal; keep it with the database and let the adapter perform SQLite recovery rather than deleting it.
 
