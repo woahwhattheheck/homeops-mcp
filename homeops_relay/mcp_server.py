@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import os
 import secrets
+import socket
 import threading
 import time
 from collections import deque
@@ -215,6 +216,8 @@ class SessionState:
 
 class HomeOpsHTTPServer(ThreadingHTTPServer):
     def __init__(self, server_address: tuple[str, int], handler: type[BaseHTTPRequestHandler], ledger: HomeOpsLedger | SQLiteHomeOpsLedger | None = None, *, durable_path: str | None = None) -> None:
+        if ":" in server_address[0]:
+            self.address_family = socket.AF_INET6
         dispatcher = Dispatcher(ledger, durable_path=durable_path)
         super().__init__(server_address, handler)
         self.dispatcher = dispatcher
@@ -473,7 +476,8 @@ def main() -> None:
         server = make_server(host, port, durable_path=durable_path)
     except StorageError as exc:
         raise SystemExit(f"HomeOps journal could not be opened: {exc}") from exc
-    print(f"HomeOps Relay MCP {MCP_PROTOCOL_VERSION} on http://{host}:{server.server_port}/mcp", flush=True)
+    url_host = f"[{host}]" if ":" in host else host
+    print(f"HomeOps Relay MCP {MCP_PROTOCOL_VERSION} on http://{url_host}:{server.server_port}/mcp", flush=True)
     server.serve_forever()
 
 
