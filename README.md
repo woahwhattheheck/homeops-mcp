@@ -6,15 +6,15 @@ The differentiator is not another single-turn home-maintenance chatbot. HomeOps 
 
 ## Competition fit
 
-Captured from the current Amazon/Devpost first-party pages on 2026-09-17:
+Checked against the [official Amazon/Devpost rules](https://amazonappdev2026.devpost.com/rules) on **2026-10-03 UTC**:
 
 - Submission deadline: **2026-10-23 12:00 PM Pacific**.
-- Alexa+ accepts a working Agent Skill or a **self-hosted MCP server implementing spec `2025-11-25` or later over Streamable HTTP**.
-- Public source, working demo, and a public English demo video under three minutes are required at submission.
+- Alexa+ accepts a working Agent Skill or a **self-hosted MCP server implementing spec `2025-11-25` or later over Streamable HTTP**. The rules also allow a clearly labelled simulated Alexa+ experience.
+- Submit functional source through a public licensed repository or the rules' private judge-sharing option, plus a working demo, a public video under three minutes, and product feedback. This repository uses the public-source route.
 - Alexa+ track cash prizes are **$25,000 / $15,000 / $4,000**; a qualifying primary-track project can also compete for the **$5,000 Open Source** mini challenge.
 - Judging emphasizes technical implementation, design, potential impact, and quality of the idea.
 
-Authoritative sources are pinned in [`RULES_SNAPSHOT.md`](RULES_SNAPSHOT.md). Nothing in this repository is a registration, submission, eligibility, award, or payment claim.
+The planning snapshot and primary-source links are in [`RULES_SNAPSHOT.md`](RULES_SNAPSHOT.md). Nothing in this repository is a registration, submission, eligibility, award, or payment claim.
 
 ## Architecture
 

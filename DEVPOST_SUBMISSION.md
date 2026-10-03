@@ -48,12 +48,11 @@ Explain the broader product: maintenance histories that survive across turns, co
 - [ ] Re-read current official rules and deadline.
 - [ ] Devpost account has joined the correct hackathon under the intended entrant identity.
 - [ ] Eligibility / team facts are truthful and complete.
-- [ ] Deploy MCP endpoint publicly over HTTPS.
-- [ ] Validate a real MCP client against the deployed endpoint and retain non-secret runtime evidence.
-- [ ] If representing actual Alexa+ runtime, capture truthful live integration evidence; otherwise use only the rules-permitted simulation path and label it clearly.
-- [ ] Public repository URL points to the exact submitted source and Apache-2.0 is visible at repo top level.
+- [ ] Choose and accurately demonstrate the MCP/Agent Skill route or the permitted simulated-experience route. This server's local MCP execution does not establish live Alexa+ integration or a completed simulation demo.
+- [ ] For the MCP route, document the endpoint and validate it with a real MCP client. Retain non-secret runtime evidence; label any actual Alexa+ integration separately.
+- [ ] Provide the exact public licensed repository or use the rules' private judge-sharing option. This project currently uses public Apache-2.0 source.
 - [ ] Public English YouTube/Vimeo demo is <3 minutes.
 - [ ] Description accurately distinguishes synthetic fixtures from live integration.
 - [ ] Pre-existing/third-party assets, if any are later incorporated, are disclosed and license-compatible.
-- [ ] Product feedback / friction log included if requested by the submission form.
+- [ ] Include required product feedback; add an optional friction log grounded in observed use.
 - [ ] Submit exactly once, preserve provider receipt, and do not claim award/payment before organizer evidence.
