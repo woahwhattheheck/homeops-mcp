@@ -3,9 +3,11 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 from pathlib import Path
 import sqlite3
 import sys
+import tempfile
 
 from .homeops import HomeOpsLedger, ValidationError
 from .reporting import render_report
@@ -19,6 +21,25 @@ def _new_destination(value: str) -> Path:
     if not path.parent.is_dir():
         raise ValidationError("output parent directory must already exist")
     return path
+
+
+def _publish_output(destination: Path, content: bytes) -> None:
+    # Household evidence stays private while it is written, and the requested
+    # destination becomes visible only after the complete file is closed.
+    temporary: Path | None = None
+    try:
+        with tempfile.NamedTemporaryFile(prefix=".homeops-export-", dir=destination.parent,
+                                         delete=False) as handle:
+            temporary = Path(handle.name)
+            handle.write(content)
+            handle.flush()
+            os.fsync(handle.fileno())
+        # Link publication is exclusive: a destination created since the
+        # initial check is preserved, including a dangling symlink.
+        os.link(temporary, destination)
+    finally:
+        if temporary is not None:
+            temporary.unlink(missing_ok=True)
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -42,8 +63,7 @@ def main(argv: list[str] | None = None) -> int:
         elif args.command == "report":
             rendered, result = render_report(ledger.export_events(), output_format=args.format,
                                              issue_id=args.issue_id)
-            with destination.open("xb") as handle:
-                handle.write(rendered.encode("utf-8"))
+            _publish_output(destination, rendered.encode("utf-8"))
             result["destination"] = str(destination)
         elif args.command == "export":
             # Derive every exported fact from this single retained event sequence.
@@ -63,8 +83,7 @@ def main(argv: list[str] | None = None) -> int:
             }
             encoded = (json.dumps(result, ensure_ascii=False, sort_keys=True, indent=2,
                                   allow_nan=False) + "\n").encode("utf-8")
-            with destination.open("xb") as handle:
-                handle.write(encoded)
+            _publish_output(destination, encoded)
             result = {key: value for key, value in result.items()
                       if key not in {"events", "snapshot"}}
             result["destination"] = str(destination)
