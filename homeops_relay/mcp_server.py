@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import math
 import os
 import secrets
 import socket
@@ -27,6 +28,12 @@ class DuplicateKeyError(ValueError):
 
 
 def _strict_json_loads(raw: bytes) -> Any:
+    def finite_float(value: str) -> float:
+        parsed = float(value)
+        if not math.isfinite(parsed):
+            raise ValueError(f"non-finite number: {value}")
+        return parsed
+
     def pairs_hook(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
         out: dict[str, Any] = {}
         for key, value in pairs:
@@ -38,6 +45,7 @@ def _strict_json_loads(raw: bytes) -> Any:
     return json.loads(
         raw.decode("utf-8"),
         object_pairs_hook=pairs_hook,
+        parse_float=finite_float,
         parse_constant=lambda value: (_ for _ in ()).throw(ValueError(f"non-finite number: {value}")),
     )
 
