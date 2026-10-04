@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import socket
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from typing import Any
@@ -261,6 +262,13 @@ class SimulationHandler(BaseHTTPRequestHandler):
         self.wfile.write(body)
 
 
+class SimulationHTTPServer(ThreadingHTTPServer):
+    def __init__(self, server_address: tuple[str, int], handler: type[BaseHTTPRequestHandler]) -> None:
+        if ":" in server_address[0]:
+            self.address_family = socket.AF_INET6
+        super().__init__(server_address, handler)
+
+
 def smoke() -> dict[str, Any]:
     session = SimulationSession()
     session.run_step("intake")
@@ -302,8 +310,9 @@ def main() -> None:
     if args.host not in {"127.0.0.1", "localhost", "::1"}:
         parser.error("the simulation binds to loopback only")
     SimulationHandler.session = SimulationSession()
-    server = ThreadingHTTPServer((args.host, args.port), SimulationHandler)
-    print(f"HomeOps simulated Alexa+ experience: http://{args.host}:{server.server_port}")
+    server = SimulationHTTPServer((args.host, args.port), SimulationHandler)
+    display_host = f"[{args.host}]" if ":" in args.host else args.host
+    print(f"HomeOps simulated Alexa+ experience: http://{display_host}:{server.server_port}")
     print("Synthetic data only; no provider contact, booking, purchase, or payment is executed.")
     try:
         server.serve_forever()
