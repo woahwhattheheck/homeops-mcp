@@ -58,6 +58,16 @@ def _rpc_error(request_id: Any, code: int, message: str) -> dict[str, Any]:
     return {"jsonrpc": "2.0", "id": request_id, "error": {"code": code, "message": message}}
 
 
+def _valid_request_id(value: Any) -> bool:
+    # MCP IDs are strings or integral JSON numbers, never null or booleans.
+    # JSON numbers such as 1.0 are still integral even when decoded as floats.
+    return (
+        isinstance(value, str)
+        or (isinstance(value, int) and not isinstance(value, bool))
+        or (isinstance(value, float) and math.isfinite(value) and value.is_integer())
+    )
+
+
 def _require_object(value: Any, field: str) -> dict[str, Any]:
     if not isinstance(value, dict):
         raise ValidationError(f"{field} must be an object")
@@ -87,6 +97,8 @@ class Dispatcher:
     def handle(self, message: Any) -> dict[str, Any] | None:
         if not isinstance(message, dict):
             return _rpc_error(None, -32600, "Invalid Request")
+        if "id" in message and not _valid_request_id(message["id"]):
+            return _rpc_error(None, -32600, "Invalid Request")
         if message.get("jsonrpc") != "2.0" or not isinstance(message.get("method"), str):
             return _rpc_error(message.get("id"), -32600, "Invalid Request")
         allowed = {"jsonrpc", "id", "method", "params"}
@@ -95,6 +107,11 @@ class Dispatcher:
         request_id = message.get("id")
         is_notification = "id" not in message
         method = message["method"]
+        if method == "notifications/initialized" and not is_notification:
+            return _rpc_error(request_id, -32600, "Invalid Request")
+        # Request methods must not execute as silent, ID-less notifications.
+        if is_notification and method != "notifications/initialized":
+            return None
         params = message.get("params", {})
         if not isinstance(params, dict):
             return None if is_notification else _rpc_error(request_id, -32602, "Invalid params")
