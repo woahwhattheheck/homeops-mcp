@@ -63,7 +63,18 @@ cd homeops-mcp
 python -m unittest discover -s tests -v
 python -O -m unittest discover -s tests -v
 python -m homeops_relay.demo
+python -m homeops_relay.simulation
 python -m homeops_relay.mcp_server
+```
+
+### Local simulated Alexa+ experience
+
+Run `python -m homeops_relay.simulation`, then open `http://127.0.0.1:8765`. The clearly labelled browser experience exercises the real `Dispatcher` and `HomeOpsLedger` through a fictional kitchen-leak story: evidence intake, two synthetic quotes, a deterministic plan, a provider-contact proposal, an explicit owner approve/reject choice, and a replay-verifiable receipt.
+
+The action must stop at `PENDING_OWNER_REVIEW`. Approval becomes `APPROVED_NOT_EXECUTED`; rejection becomes `REJECTED`. Neither path contacts a provider, books a visit, purchases anything, or pays anyone. For a bounded non-interactive source check, run:
+
+```bash
+python -m homeops_relay.simulation --smoke
 ```
 
 The server binds `127.0.0.1:8000` by default. Its MCP endpoint is `http://127.0.0.1:8000/mcp`; health is `/healthz`. It implements the `2025-11-25` handshake lifecycle: successful `initialize` returns a cryptographically random `MCP-Session-Id`; the client sends `notifications/initialized`; subsequent calls require both that session ID and `MCP-Protocol-Version: 2025-11-25`. POST transport requests must advertise both `application/json` and `text/event-stream` in `Accept`, as required by Streamable HTTP. This implementation chooses JSON responses and intentionally returns 405 to the optional GET/SSE listener.
