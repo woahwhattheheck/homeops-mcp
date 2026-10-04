@@ -56,6 +56,14 @@ The guided flow covers fictional kitchen-leak intake, two synthetic quotes, the 
 
 This is working local simulation evidence only. It is not a public demo video, a live Alexa+ integration, Devpost registration, rules acceptance, submission, sponsor acceptance, or prize claim.
 
+### Substantial-difference check: Hearthline
+
+The owner's separate Hearthline Alexa+ carrier already demonstrates a browser authority simulator for durable household missions: routine versus irreversible work, explicit approval, unknown-outcome reconciliation, idempotent replay, and a prepared-not-purchased shopping path.
+
+HomeOps must not be presented as that same product. Its distinct scope is an evidence-linked maintenance case and quote-provenance ledger: household observations, caller-supplied provider claims, deterministic diagnostics, quote comparison, and owner decision receipts remain separate. HomeOps has no provider-write or execution path; even approval remains `APPROVED_NOT_EXECUTED`.
+
+Before formal entry, the entrant must either choose one project or verify that the final HomeOps description, video, feedback, and artifacts satisfy the organizer's unique/substantially-different requirement. Do not claim that this source packet alone establishes eligibility.
+
 ## Final submission checklist
 
 - [ ] Re-read current official rules and deadline.
@@ -66,7 +74,7 @@ This is working local simulation evidence only. It is not a public demo video, a
 - [ ] Provide the exact public licensed repository or use the rules' private judge-sharing option. This project currently uses public Apache-2.0 source.
 - [ ] Public English YouTube/Vimeo demo is <3 minutes.
 - [ ] Description accurately distinguishes synthetic fixtures from live integration.
+- [ ] Select one household-agent entry or document an organizer-compliant substantial difference from Hearthline.
 - [ ] Pre-existing/third-party assets, if any are later incorporated, are disclosed and license-compatible.
 - [ ] Include required product feedback; add an optional friction log grounded in observed use.
 - [ ] Submit exactly once, preserve provider receipt, and do not claim award/payment before organizer evidence.
-

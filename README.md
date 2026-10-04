@@ -77,6 +77,12 @@ The action must stop at `PENDING_OWNER_REVIEW`. Approval becomes `APPROVED_NOT_E
 python -m homeops_relay.simulation --smoke
 ```
 
+#### Relationship to the existing Hearthline entry
+
+The owner also has a separate Hearthline Alexa+ project. Hearthline's browser simulator demonstrates routine versus irreversible mission execution, unknown-outcome reconciliation, idempotent command replay, and a prepared-not-purchased shopping path. HomeOps Relay is narrower and differently grounded: it keeps a maintenance case ledger that separates household observations, synthetic provider quotes, diagnostic recommendations, and owner decisions. It has no provider-write or execution path; approval remains `APPROVED_NOT_EXECUTED`.
+
+Because the competition requires multiple entries to be unique and substantially different, the entrant must either select one project or ensure the final HomeOps story, video, feedback, and submission preserve this distinct maintenance-evidence/quote-provenance scope. This repository does not establish that organizer decision.
+
 The server binds `127.0.0.1:8000` by default. Its MCP endpoint is `http://127.0.0.1:8000/mcp`; health is `/healthz`. It implements the `2025-11-25` handshake lifecycle: successful `initialize` returns a cryptographically random `MCP-Session-Id`; the client sends `notifications/initialized`; subsequent calls require both that session ID and `MCP-Protocol-Version: 2025-11-25`. POST transport requests must advertise both `application/json` and `text/event-stream` in `Accept`, as required by Streamable HTTP. This implementation chooses JSON responses and intentionally returns 405 to the optional GET/SSE listener.
 
 For an intentional remote deployment, set `HOMEOPS_HOST=0.0.0.0` together with `HOMEOPS_ALLOW_REMOTE_BIND=1`, terminate TLS/authentication in a trusted production reverse proxy, and explicitly set `HOMEOPS_ALLOWED_ORIGINS` for browser origins. The handler rejects non-local `Origin` headers by default, caps request bodies, rejects duplicate JSON keys/non-finite numbers, rate-limits tool calls per session, and serializes append-only ledger mutation across concurrent HTTP workers.
@@ -146,4 +152,3 @@ The submission storyboard in [`DEVPOST_SUBMISSION.md`](DEVPOST_SUBMISSION.md) tu
 ## License
 
 HomeOps Relay is licensed under Apache-2.0; see [`LICENSE`](LICENSE).
-
