@@ -54,7 +54,11 @@ python -m homeops_relay.simulation
 
 The guided flow covers fictional kitchen-leak intake, two synthetic quotes, the plan, a contact proposal that stops at `PENDING_OWNER_REVIEW`, an owner approve or reject choice, and the replay-verifiable receipt. Approval is displayed as `APPROVED_NOT_EXECUTED`; every screen states that no provider, booking, purchase, or payment is executed. `python -m homeops_relay.simulation --smoke` exercises the same real source without a browser.
 
-This is working local simulation evidence only. It is not a public demo video, a live Alexa+ integration, Devpost registration, rules acceptance, submission, sponsor acceptance, or prize claim.
+### Completed recording
+
+[Watch the 97.68-second English-captioned MP4](docs/demo/2026-10-04/homeops-simulation.mp4). The [recording packet](docs/demo/2026-10-04/README.md) includes its transcript, SRT, source/file manifest, screenshots and actual HTTP responses. It records the unchanged `16043242dc259e20e13cea0a51cf2cdb7526772a` simulation: 14 loopback interactions, both approve/reject paths, and two verified five-event chains with no external effect. The MP4 is silent; its English captions are burned in.
+
+This is a completed recorded simulation, not the full suggested MCP-oriented storyboard above. It does not show live Alexa+, a `/mcp` endpoint exercise or a tamper-rejection demonstration. GitHub hosting is **not** the required public YouTube/Vimeo publication. The original entrant still owns that upload and final entry choices; no Devpost registration, rules acceptance, submission, sponsor acceptance or prize is claimed.
 
 ### Substantial-difference check: Hearthline
 
@@ -69,7 +73,7 @@ Before formal entry, the entrant must either choose one project or verify that t
 - [ ] Re-read current official rules and deadline.
 - [ ] Devpost account has joined the correct hackathon under the intended entrant identity.
 - [ ] Eligibility / team facts are truthful and complete.
-- [ ] Choose and accurately demonstrate the MCP/Agent Skill route or the permitted simulated-experience route. This server's local MCP execution does not establish live Alexa+ integration or a completed simulation demo.
+- [ ] Choose and accurately demonstrate the MCP/Agent Skill route or the permitted simulated-experience route. The recorded simulation above is available; it does not establish live Alexa+ integration.
 - [ ] For the MCP route, document the endpoint and validate it with a real MCP client. Retain non-secret runtime evidence; label any actual Alexa+ integration separately.
 - [ ] Provide the exact public licensed repository or use the rules' private judge-sharing option. This project currently uses public Apache-2.0 source.
 - [ ] Public English YouTube/Vimeo demo is <3 minutes.
