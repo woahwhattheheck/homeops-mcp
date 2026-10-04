@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Any
 
 from .mcp_server import Dispatcher, MCP_PROTOCOL_VERSION
+from .reporting import render_report
 
 
 STATIC_FILE = Path(__file__).with_name("static") / "simulation.html"
@@ -188,15 +189,28 @@ class SimulationSession:
         elif step == "snapshot":
             if self.issue_id is None:
                 raise ValueError("Run the scenario before requesting its receipt")
-            snapshot = self._tool(8, "homeops.snapshot", {})
-            verification = self.dispatcher.ledger.verify_events(
-                self.dispatcher.ledger.export_events()
-            )
+            events = self.dispatcher.ledger.export_events()
+            replay = self.dispatcher.ledger.replay(events)
+            snapshot = replay.snapshot()
+            verification = self.dispatcher.ledger.verify_events(events)
+            handoff_html, _ = render_report(events, output_format="html")
+            event_export = {
+                "schema": "homeops-relay-event-export/v1",
+                "retry_operations_included": False,
+                "restore_supported": False,
+                "event_count": len(events),
+                "receipt": replay.receipt,
+                "snapshot_digest": snapshot["snapshot_digest"],
+                "events": events,
+                "snapshot": snapshot,
+            }
             self.view.update(
                 stage="receipt",
                 message="The event chain replayed successfully; this is a local simulation receipt.",
                 snapshot=snapshot,
                 verification=verification,
+                handoff_html=handoff_html,
+                event_export=event_export,
             )
         else:
             raise ValueError("unknown simulation step")
