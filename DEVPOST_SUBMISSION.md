@@ -43,6 +43,19 @@ Explain the broader product: maintenance histories that survive across turns, co
 **2:50–3:00 — close**  
 “HomeOps Relay gives an ambient agent memory, provenance, and brakes — the three things a real household workflow needs after the first answer.”
 
+## Working local browser simulation
+
+The repository now includes a clearly labelled simulated Alexa+ experience that uses the real deterministic dispatcher and ledger instead of a canned transcript:
+
+```bash
+python -m homeops_relay.simulation
+# open http://127.0.0.1:8765
+```
+
+The guided flow covers fictional kitchen-leak intake, two synthetic quotes, the plan, a contact proposal that stops at `PENDING_OWNER_REVIEW`, an owner approve or reject choice, and the replay-verifiable receipt. Approval is displayed as `APPROVED_NOT_EXECUTED`; every screen states that no provider, booking, purchase, or payment is executed. `python -m homeops_relay.simulation --smoke` exercises the same real source without a browser.
+
+This is working local simulation evidence only. It is not a public demo video, a live Alexa+ integration, Devpost registration, rules acceptance, submission, sponsor acceptance, or prize claim.
+
 ## Final submission checklist
 
 - [ ] Re-read current official rules and deadline.
@@ -56,3 +69,4 @@ Explain the broader product: maintenance histories that survive across turns, co
 - [ ] Pre-existing/third-party assets, if any are later incorporated, are disclosed and license-compatible.
 - [ ] Include required product feedback; add an optional friction log grounded in observed use.
 - [ ] Submit exactly once, preserve provider receipt, and do not claim award/payment before organizer evidence.
+
