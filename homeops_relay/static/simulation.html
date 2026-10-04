@@ -56,14 +56,14 @@
     <section class="panel"><h2>Guided voice-style story</h2><div class="story">
       <div class="prompt">“Alexa, there is water collecting under the kitchen sink when I run the faucet.”</div>
       <div class="steps">
-        <button data-step="intake">1 · Capture observation<small>Evidence-linked intake; no invented diagnosis.</small></button>
+        <button data-step="intake" disabled>1 · Capture observation<small>Evidence-linked intake; no invented diagnosis.</small></button>
         <button data-step="quotes" disabled>2 · Add two synthetic quotes<small>Keep provider claims explicitly unverified.</small></button>
         <button data-step="plan" disabled>3 · Build a safety-first plan<small>Compare scope and price without auto-selecting.</small></button>
         <button data-step="request" disabled>4 · Propose provider contact<small>Must stop at PENDING_OWNER_REVIEW.</small></button>
         <div class="decision"><button class="approve" data-decision="APPROVE" disabled>5A · Approve proposal</button><button class="reject" data-decision="REJECT" disabled>5B · Reject proposal</button></div>
         <button data-step="snapshot" disabled>6 · Verify receipt<small>Replay the complete event chain and show its digest.</small></button>
       </div>
-      <button id="reset">Reset fictional scenario</button>
+      <button id="reset" disabled>Reset fictional scenario</button>
     </div></section>
     <section class="panel"><h2>Live result</h2><div class="status" id="status"><p class="empty">Run the first step to create a fictional, evidence-linked maintenance case.</p></div></section>
   </div>
@@ -83,9 +83,10 @@ if(d.plan)html+=`<div class="card"><h3>Deterministic plan</h3><ol>${d.plan.steps
 if(d.action)html+=`<div class="card"><h3>Contact proposal</h3><span class="state ${stateClass(d.action.state)}">${esc(d.action.state)}</span><p>Target: Example Plumbing A<br>External effect: <b>NO</b></p></div>`;
 if(d.decision)html+=`<div class="card"><h3>Owner decision</h3><span class="state ${stateClass(d.decision.state)}">${esc(d.decision.state)}</span><p>External effect: <b>NO</b></p></div>`;
 if(d.verification)html+=`<div class="card"><h3>Replay-verifiable receipt</h3><span class="state">VERIFIED</span><p><span class="label">Receipt</span><br><code>${esc(d.event_receipt)}</code></p><p><span class="label">Snapshot digest</span><br><code>${esc(d.verification.snapshot_digest)}</code></p><p>Save this fictional scenario for review. Neither file authorizes or proves an external action; the event export is not a journal backup.</p>${d.handoff_html?'<button id="download-handoff">Download owner handoff (HTML)</button>':''}${d.event_export?'<button id="download-events">Download replayable events (JSON)</button>':''}</div>`;
-statusEl.innerHTML=html;document.querySelector('#download-handoff')?.addEventListener('click',()=>downloadFile('homeops-fictional-simulation-handoff.html',d.handoff_html,'text/html;charset=utf-8'));document.querySelector('#download-events')?.addEventListener('click',()=>downloadFile('homeops-fictional-simulation-events.json',JSON.stringify(d.event_export,null,2)+'\n','application/json')); const stages=['ready','intake','quotes','plan','owner_review','decision','receipt'];const idx=stages.indexOf(d.stage);buttons.forEach((b,i)=>b.disabled=i>idx||i<idx);if(d.stage==='owner_review'){buttons.forEach(b=>b.disabled=true);decisions.forEach(b=>b.disabled=false)}else decisions.forEach(b=>b.disabled=true);if(d.stage==='decision'){buttons.find(b=>b.dataset.step==='snapshot').disabled=false}}
-async function act(body){try{render(await post('/api/step',body))}catch(e){statusEl.insertAdjacentHTML('afterbegin',`<div class="banner" style="border-color:#9f1239;background:#3b101c">${esc(e.message)}</div>`)}}
-buttons.forEach(b=>b.addEventListener('click',()=>act({step:b.dataset.step})));decisions.forEach(b=>b.addEventListener('click',()=>act({step:'decision',decision:b.dataset.decision})));document.querySelector('#reset').addEventListener('click',async()=>render(await post('/api/reset')));post('/api/reset').then(render);
+statusEl.innerHTML=html;document.querySelector('#reset').disabled=false;document.querySelector('#download-handoff')?.addEventListener('click',()=>downloadFile('homeops-fictional-simulation-handoff.html',d.handoff_html,'text/html;charset=utf-8'));document.querySelector('#download-events')?.addEventListener('click',()=>downloadFile('homeops-fictional-simulation-events.json',JSON.stringify(d.event_export,null,2)+'\n','application/json')); const stages=['ready','intake','quotes','plan','owner_review','decision','receipt'];const idx=stages.indexOf(d.stage);buttons.forEach((b,i)=>b.disabled=i>idx||i<idx);if(d.stage==='owner_review'){buttons.forEach(b=>b.disabled=true);decisions.forEach(b=>b.disabled=false)}else decisions.forEach(b=>b.disabled=true);if(d.stage==='decision'){buttons.find(b=>b.dataset.step==='snapshot').disabled=false}}
+function showError(e){statusEl.insertAdjacentHTML('afterbegin',`<div class="banner" style="border-color:#9f1239;background:#3b101c">${esc(e.message)}</div>`);document.querySelector('#reset').disabled=false}
+async function act(body){try{render(await post('/api/step',body))}catch(e){showError(e)}}
+buttons.forEach(b=>b.addEventListener('click',()=>act({step:b.dataset.step})));decisions.forEach(b=>b.addEventListener('click',()=>act({step:'decision',decision:b.dataset.decision})));document.querySelector('#reset').addEventListener('click',async()=>{try{render(await post('/api/reset'))}catch(e){showError(e)}});fetch('/api/state',{cache:'no-store'}).then(async r=>{const data=await r.json();if(!r.ok)throw new Error(data.error||'Unable to load scenario');return data}).then(render).catch(showError);
 </script>
 </body>
 </html>

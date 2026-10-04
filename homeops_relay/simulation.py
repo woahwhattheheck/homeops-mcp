@@ -237,6 +237,9 @@ class SimulationHandler(BaseHTTPRequestHandler):
         return
 
     def do_GET(self) -> None:  # noqa: N802 - BaseHTTPRequestHandler API
+        if self.path == "/api/state":
+            self._json_response(200, self.session.payload())
+            return
         if self.path not in {"/", "/index.html"}:
             self.send_error(404)
             return
