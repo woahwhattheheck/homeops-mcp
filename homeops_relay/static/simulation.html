@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HomeOps Relay — simulated Alexa+ experience</title>
+  <style>
+    :root { color-scheme: dark; --ink:#eef3f8; --muted:#9fb0c3; --panel:#111b27; --line:#2b3a4d; --cyan:#5eead4; --gold:#fbbf24; --red:#fb7185; }
+    * { box-sizing: border-box; }
+    body { margin:0; font:16px/1.45 Inter,ui-sans-serif,system-ui,sans-serif; color:var(--ink); background:radial-gradient(circle at 12% -10%,#164e63 0,transparent 34%),#07111c; }
+    main { width:min(1120px,calc(100% - 32px)); margin:0 auto; padding:34px 0 60px; }
+    header { display:grid; grid-template-columns:1fr auto; gap:24px; align-items:start; margin-bottom:24px; }
+    .eyebrow { color:var(--cyan); letter-spacing:.14em; text-transform:uppercase; font-size:.75rem; font-weight:800; }
+    h1 { font-size:clamp(2rem,5vw,4.2rem); line-height:.95; margin:.35rem 0 1rem; max-width:760px; }
+    .lede { color:var(--muted); max-width:720px; font-size:1.05rem; }
+    .truth { max-width:300px; border:1px solid #854d0e; background:#261907; padding:14px 16px; border-radius:14px; color:#fde68a; font-weight:700; }
+    .grid { display:grid; grid-template-columns:minmax(0,1.05fr) minmax(320px,.95fr); gap:20px; }
+    .panel { background:color-mix(in srgb,var(--panel) 94%,transparent); border:1px solid var(--line); border-radius:18px; box-shadow:0 18px 60px #0006; overflow:hidden; }
+    .panel h2 { font-size:1rem; margin:0; padding:16px 18px; border-bottom:1px solid var(--line); }
+    .story { padding:18px; }
+    .prompt { border-left:3px solid var(--cyan); padding:12px 14px; background:#0b2530; border-radius:0 10px 10px 0; margin-bottom:18px; }
+    .steps { display:grid; gap:10px; }
+    button { width:100%; text-align:left; color:var(--ink); background:#172434; border:1px solid #3a4b60; border-radius:12px; padding:13px 14px; font:inherit; font-weight:700; cursor:pointer; transition:.15s ease; }
+    button:hover:not(:disabled) { transform:translateY(-1px); border-color:var(--cyan); background:#1b3040; }
+    button:disabled { opacity:.38; cursor:not-allowed; }
+    button small { display:block; color:var(--muted); font-weight:500; margin-top:3px; }
+    .decision { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .approve { border-color:#0f766e; } .reject { border-color:#9f1239; }
+    #reset { margin-top:18px; color:var(--muted); background:transparent; }
+    .status { padding:18px; display:grid; gap:14px; min-height:620px; }
+    .banner { padding:14px; background:#102b35; border:1px solid #155e75; border-radius:12px; color:#a5f3fc; }
+    .metrics { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+    .metric { background:#0b1520; border:1px solid var(--line); border-radius:12px; padding:12px; }
+    .metric b { display:block; font-size:1.05rem; margin-top:4px; overflow-wrap:anywhere; }
+    .label { color:var(--muted); text-transform:uppercase; font-size:.68rem; letter-spacing:.09em; }
+    .card { border:1px solid var(--line); border-radius:12px; padding:14px; background:#0c1622; }
+    .card h3 { margin:0 0 8px; font-size:.93rem; }
+    .state { display:inline-block; font:700 .78rem ui-monospace,monospace; padding:5px 8px; border-radius:999px; background:#12332f; color:#99f6e4; }
+    .state.pending { background:#3b2906; color:#fde68a; } .state.rejected { background:#3b101c; color:#fecdd3; }
+    ol { margin:8px 0 0; padding-left:20px; color:#d5dee8; }
+    table { width:100%; border-collapse:collapse; font-size:.86rem; } th,td { text-align:left; padding:7px 5px; border-bottom:1px solid var(--line); }
+    code { font-family:ui-monospace,SFMono-Regular,monospace; color:#a5f3fc; overflow-wrap:anywhere; }
+    .empty { color:var(--muted); margin:auto; text-align:center; max-width:340px; }
+    footer { color:var(--muted); margin-top:18px; font-size:.8rem; }
+    @media (max-width:820px) { header,.grid { grid-template-columns:1fr; } .truth { max-width:none; } .status { min-height:0; } }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <div><div class="eyebrow">HomeOps Relay · local browser simulation</div><h1>Memory and brakes for household agents.</h1><p class="lede">Walk a fictional kitchen leak from observation to a tamper-evident owner decision. Every visible result comes from the repository’s real deterministic ledger.</p></div>
+    <div class="truth">SIMULATED ALEXA+ EXPERIENCE<br><span style="font-weight:500">No provider, device, booking, purchase, or payment is contacted or executed.</span></div>
+  </header>
+  <div class="grid">
+    <section class="panel"><h2>Guided voice-style story</h2><div class="story">
+      <div class="prompt">“Alexa, there is water collecting under the kitchen sink when I run the faucet.”</div>
+      <div class="steps">
+        <button data-step="intake">1 · Capture observation<small>Evidence-linked intake; no invented diagnosis.</small></button>
+        <button data-step="quotes" disabled>2 · Add two synthetic quotes<small>Keep provider claims explicitly unverified.</small></button>
+        <button data-step="plan" disabled>3 · Build a safety-first plan<small>Compare scope and price without auto-selecting.</small></button>
+        <button data-step="request" disabled>4 · Propose provider contact<small>Must stop at PENDING_OWNER_REVIEW.</small></button>
+        <div class="decision"><button class="approve" data-decision="APPROVE" disabled>5A · Approve proposal</button><button class="reject" data-decision="REJECT" disabled>5B · Reject proposal</button></div>
+        <button data-step="snapshot" disabled>6 · Verify receipt<small>Replay the complete event chain and show its digest.</small></button>
+      </div>
+      <button id="reset">Reset fictional scenario</button>
+    </div></section>
+    <section class="panel"><h2>Live result</h2><div class="status" id="status"><p class="empty">Run the first step to create a fictional, evidence-linked maintenance case.</p></div></section>
+  </div>
+  <footer>Local-only demonstration · synthetic providers and amounts · MCP protocol <span id="protocol">loading</span></footer>
+</main>
+<script>
+const statusEl=document.querySelector('#status'); const buttons=[...document.querySelectorAll('[data-step]')]; const decisions=[...document.querySelectorAll('[data-decision]')];
+const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+async function post(path,body={}){const r=await fetch(path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});const data=await r.json();if(!r.ok)throw new Error(data.error||'Request failed');return data;}
+function stateClass(v){return v==='PENDING_OWNER_REVIEW'?'pending':v==='REJECTED'?'rejected':''}
+function render(d){document.querySelector('#protocol').textContent=d.protocol_version||'2025-11-25';let html=`<div class="banner">${esc(d.message)}</div><div class="metrics"><div class="metric"><span class="label">Events</span><b>${esc(d.event_count)}</b></div><div class="metric"><span class="label">External effect</span><b>${d.external_effect?'YES':'NO'}</b></div><div class="metric"><span class="label">Mode</span><b>SIMULATED</b></div></div>`;
+if(d.issue)html+=`<div class="card"><h3>Issue intake</h3><span class="state">OPEN · HIGH</span><p><b>Water collecting under kitchen sink</b><br><span class="label">${esc(d.issue.issue_id)}</span></p></div>`;
+if(d.quotes)html+=`<div class="card"><h3>Synthetic quotes</h3><table><thead><tr><th>Provider</th><th>Amount</th><th>Truth</th></tr></thead><tbody><tr><td>Example Plumbing A</td><td>$245</td><td>Unverified</td></tr><tr><td>Example Plumbing B</td><td>$310</td><td>Unverified</td></tr></tbody></table></div>`;
+if(d.plan)html+=`<div class="card"><h3>Deterministic plan</h3><ol>${d.plan.steps.map(x=>`<li>${esc(x)}</li>`).join('')}</ol></div>`;
+if(d.action)html+=`<div class="card"><h3>Contact proposal</h3><span class="state ${stateClass(d.action.state)}">${esc(d.action.state)}</span><p>Target: Example Plumbing A<br>External effect: <b>NO</b></p></div>`;
+if(d.decision)html+=`<div class="card"><h3>Owner decision</h3><span class="state ${stateClass(d.decision.state)}">${esc(d.decision.state)}</span><p>External effect: <b>NO</b></p></div>`;
+if(d.verification)html+=`<div class="card"><h3>Replay-verifiable receipt</h3><span class="state">VERIFIED</span><p><span class="label">Receipt</span><br><code>${esc(d.event_receipt)}</code></p><p><span class="label">Snapshot digest</span><br><code>${esc(d.verification.snapshot_digest)}</code></p></div>`;
+statusEl.innerHTML=html; const stages=['ready','intake','quotes','plan','owner_review','decision','receipt'];const idx=stages.indexOf(d.stage);buttons.forEach((b,i)=>b.disabled=i>idx||i<idx);if(d.stage==='owner_review'){buttons.forEach(b=>b.disabled=true);decisions.forEach(b=>b.disabled=false)}else decisions.forEach(b=>b.disabled=true);if(d.stage==='decision'){buttons.find(b=>b.dataset.step==='snapshot').disabled=false}}
+async function act(body){try{render(await post('/api/step',body))}catch(e){statusEl.insertAdjacentHTML('afterbegin',`<div class="banner" style="border-color:#9f1239;background:#3b101c">${esc(e.message)}</div>`)}}
+buttons.forEach(b=>b.addEventListener('click',()=>act({step:b.dataset.step})));decisions.forEach(b=>b.addEventListener('click',()=>act({step:'decision',decision:b.dataset.decision})));document.querySelector('#reset').addEventListener('click',async()=>render(await post('/api/reset')));post('/api/reset').then(render);
+</script>
+</body>
+</html>
