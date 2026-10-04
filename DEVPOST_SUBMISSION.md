@@ -69,3 +69,4 @@ This is working local simulation evidence only. It is not a public demo video, a
 - [ ] Pre-existing/third-party assets, if any are later incorporated, are disclosed and license-compatible.
 - [ ] Include required product feedback; add an optional friction log grounded in observed use.
 - [ ] Submit exactly once, preserve provider receipt, and do not claim award/payment before organizer evidence.
+
