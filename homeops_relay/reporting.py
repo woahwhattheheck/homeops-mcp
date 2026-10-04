@@ -76,7 +76,7 @@ def _blocks(ledger: HomeOpsLedger, snapshot: dict[str, Any], issues: list[dict[s
 
 def _markdown_text(value: Any) -> str:
     text = escape(str(value), quote=False)
-    text = re.sub(r"([\\`*_{}\[\]()#+.!|>-])", r"\\\1", text)
+    text = re.sub(r"([\\`*_{}\[\]()#+.!|>~-])", r"\\\1", text)
     return text.replace("\n", "  \n")
 
 
