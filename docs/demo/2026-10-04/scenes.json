@@ -1,0 +1,62 @@
+[
+  {
+    "start": 2.411,
+    "end": 9.534,
+    "caption": "HomeOps Relay: a fictional Alexa+ workflow.\nThis is the actual local browser app, not a live Alexa or provider connection.",
+    "screenshot": "01-introduction.png"
+  },
+  {
+    "start": 10.23,
+    "end": 17.281,
+    "caption": "Capture what was observed and its evidence.\nA water leak is recorded without inventing a diagnosis.",
+    "screenshot": "02-observation.png"
+  },
+  {
+    "start": 17.966,
+    "end": 27.041,
+    "caption": "Compare $245 and $310 example quotes.\nBoth remain explicitly synthetic and unverified.",
+    "screenshot": "03-quotes.png"
+  },
+  {
+    "start": 27.703,
+    "end": 37.801,
+    "caption": "Build the plan from the retained case and quote evidence.\nPlanning does not choose or contact a provider.",
+    "screenshot": "04-plan.png"
+  },
+  {
+    "start": 38.453,
+    "end": 48.519,
+    "caption": "The proposed contact stops at PENDING_OWNER_REVIEW.\nNothing has been sent, booked, purchased or paid.",
+    "screenshot": "05-review.png"
+  },
+  {
+    "start": 49.167,
+    "end": 59.226,
+    "caption": "The fictional owner approves the proposal.\nThe ledger records APPROVED_NOT_EXECUTED, not a completed external action.",
+    "screenshot": "06-approval.png"
+  },
+  {
+    "start": 59.883,
+    "end": 69.934,
+    "caption": "Replay verifies all five events and exposes the receipt digest.\nVerification proves this local event chain, not contractor work or payment.",
+    "screenshot": "07-approval-receipt.png"
+  },
+  {
+    "start": 74.508,
+    "end": 83.548,
+    "caption": "A separate reset of the fictional scenario demonstrates rejection.\nThe proposal becomes REJECTED and still has no external effect.",
+    "screenshot": "08-rejection.png"
+  },
+  {
+    "start": 84.199,
+    "end": 93.254,
+    "caption": "The rejection also produces a replay-verifiable receipt.\nObservation, provenance, owner control and an inspectable record stay together.",
+    "screenshot": "09-rejection-receipt.png"
+  },
+  {
+    "start": 93.254,
+    "end": 99.293,
+    "caption": "Recorded from HomeOps source 16043242 on October 4, 2026.\nSimulation only: no external service, account, booking or payment was used.",
+    "screenshot": "10-close.png"
+  }
+]

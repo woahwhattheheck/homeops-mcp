@@ -1,0 +1,910 @@
+[
+  {
+    "elapsed": 1.841,
+    "path": "/api/reset",
+    "request": {},
+    "status": 200,
+    "body": {
+      "event_count": 0,
+      "event_receipt": "7d3e05f0d59c0189f67a838e87454031f894f171390ffa911a0173b6e0618a2d",
+      "external_effect": false,
+      "message": "Ready for the fictional kitchen-leak walkthrough.",
+      "mode": "SIMULATED_ALEXA_PLUS",
+      "protocol_version": "2025-11-25",
+      "stage": "ready"
+    }
+  },
+  {
+    "elapsed": 9.604,
+    "path": "/api/step",
+    "request": {
+      "step": "intake"
+    },
+    "status": 200,
+    "body": {
+      "event_count": 1,
+      "event_receipt": "0ed5494abf8c73e0b82bcf794e98664a8bd52f04a7cf720dbf9c43f90a684055",
+      "external_effect": false,
+      "issue": {
+        "issue_id": "ISS-0001-e8db2dff33",
+        "receipt": "0ed5494abf8c73e0b82bcf794e98664a8bd52f04a7cf720dbf9c43f90a684055",
+        "state": "OPEN"
+      },
+      "message": "Captured the observation as evidence, not as a diagnosis.",
+      "mode": "SIMULATED_ALEXA_PLUS",
+      "protocol_version": "2025-11-25",
+      "stage": "intake"
+    }
+  },
+  {
+    "elapsed": 17.315,
+    "path": "/api/step",
+    "request": {
+      "step": "quotes"
+    },
+    "status": 200,
+    "body": {
+      "event_count": 3,
+      "event_receipt": "18a8e8015ce8cabb1485141416bc2f4985be6bb56b3bc794605a9d75c06d9e47",
+      "external_effect": false,
+      "issue": {
+        "issue_id": "ISS-0001-e8db2dff33",
+        "receipt": "0ed5494abf8c73e0b82bcf794e98664a8bd52f04a7cf720dbf9c43f90a684055",
+        "state": "OPEN"
+      },
+      "message": "Recorded two caller-supplied synthetic quotes; neither is verified.",
+      "mode": "SIMULATED_ALEXA_PLUS",
+      "protocol_version": "2025-11-25",
+      "quotes": [
+        {
+          "quote_id": "QTE-0002-47d12de16a",
+          "receipt": "2cac810f38163d3a5084600e47f354ce6dba65b5023efef80d1c62499d837e1a",
+          "state": "RECORDED_UNVERIFIED"
+        },
+        {
+          "quote_id": "QTE-0003-5a52a7041e",
+          "receipt": "18a8e8015ce8cabb1485141416bc2f4985be6bb56b3bc794605a9d75c06d9e47",
+          "state": "RECORDED_UNVERIFIED"
+        }
+      ],
+      "stage": "quotes"
+    }
+  },
+  {
+    "elapsed": 27.085,
+    "path": "/api/step",
+    "request": {
+      "step": "plan"
+    },
+    "status": 200,
+    "body": {
+      "event_count": 3,
+      "event_receipt": "18a8e8015ce8cabb1485141416bc2f4985be6bb56b3bc794605a9d75c06d9e47",
+      "external_effect": false,
+      "issue": {
+        "issue_id": "ISS-0001-e8db2dff33",
+        "receipt": "0ed5494abf8c73e0b82bcf794e98664a8bd52f04a7cf720dbf9c43f90a684055",
+        "state": "OPEN"
+      },
+      "message": "Built a safety-first plan without selecting or contacting a provider.",
+      "mode": "SIMULATED_ALEXA_PLUS",
+      "plan": {
+        "authority": {
+          "contact_provider": false,
+          "external_effect": false,
+          "mode": "OWNER_REVIEW_REQUIRED",
+          "purchase": false,
+          "schedule_visit": false
+        },
+        "issue_id": "ISS-0001-e8db2dff33",
+        "plan_digest": "dfc80f88112df16caeb07f65b1735e9e47045bca6712db181e192ab4ba6ff836",
+        "quotes": [
+          {
+            "amount_minor": 24500,
+            "currency": "USD",
+            "provider": "Example Plumbing A",
+            "quote_id": "QTE-0002-47d12de16a",
+            "scope": "Replace supply line if inspection confirms leak",
+            "verification": "CALLER_SUPPLIED_UNVERIFIED"
+          },
+          {
+            "amount_minor": 31000,
+            "currency": "USD",
+            "provider": "Example Plumbing B",
+            "quote_id": "QTE-0003-5a52a7041e",
+            "scope": "Diagnostic visit plus approved supply-line repair",
+            "verification": "CALLER_SUPPLIED_UNVERIFIED"
+          }
+        ],
+        "severity": "HIGH",
+        "source_receipt": "18a8e8015ce8cabb1485141416bc2f4985be6bb56b3bc794605a9d75c06d9e47",
+        "steps": [
+          "Inspect visible water sources and isolate the affected fixture or supply only if safe.",
+          "Document moisture location and progression before cleanup or repair.",
+          "Compare repair options by scope, evidence, warranty implications, price, and scheduling constraints.",
+          "Present any vendor contact, scheduling, purchase, or warranty action for owner approval before external execution."
+        ]
+      },
+      "protocol_version": "2025-11-25",
+      "quotes": [
+        {
+          "quote_id": "QTE-0002-47d12de16a",
+          "receipt": "2cac810f38163d3a5084600e47f354ce6dba65b5023efef80d1c62499d837e1a",
+          "state": "RECORDED_UNVERIFIED"
+        },
+        {
+          "quote_id": "QTE-0003-5a52a7041e",
+          "receipt": "18a8e8015ce8cabb1485141416bc2f4985be6bb56b3bc794605a9d75c06d9e47",
+          "state": "RECORDED_UNVERIFIED"
+        }
+      ],
+      "stage": "plan"
+    }
+  },
+  {
+    "elapsed": 37.831,
+    "path": "/api/step",
+    "request": {
+      "step": "request"
+    },
+    "status": 200,
+    "body": {
+      "action": {
+        "action_id": "ACT-0004-d80cd3a677",
+        "external_effect": false,
+        "receipt": "52792d0dfe53bc540c1418f58a331bfb0652bc502bada7b7c58df0110169a885",
+        "state": "PENDING_OWNER_REVIEW"
+      },
+      "event_count": 4,
+      "event_receipt": "52792d0dfe53bc540c1418f58a331bfb0652bc502bada7b7c58df0110169a885",
+      "external_effect": false,
+      "issue": {
+        "issue_id": "ISS-0001-e8db2dff33",
+        "receipt": "0ed5494abf8c73e0b82bcf794e98664a8bd52f04a7cf720dbf9c43f90a684055",
+        "state": "OPEN"
+      },
+      "message": "Contact is only a proposal. No message, booking, or payment was sent.",
+      "mode": "SIMULATED_ALEXA_PLUS",
+      "plan": {
+        "authority": {
+          "contact_provider": false,
+          "external_effect": false,
+          "mode": "OWNER_REVIEW_REQUIRED",
+          "purchase": false,
+          "schedule_visit": false
+        },
+        "issue_id": "ISS-0001-e8db2dff33",
+        "plan_digest": "dfc80f88112df16caeb07f65b1735e9e47045bca6712db181e192ab4ba6ff836",
+        "quotes": [
+          {
+            "amount_minor": 24500,
+            "currency": "USD",
+            "provider": "Example Plumbing A",
+            "quote_id": "QTE-0002-47d12de16a",
+            "scope": "Replace supply line if inspection confirms leak",
+            "verification": "CALLER_SUPPLIED_UNVERIFIED"
+          },
+          {
+            "amount_minor": 31000,
+            "currency": "USD",
+            "provider": "Example Plumbing B",
+            "quote_id": "QTE-0003-5a52a7041e",
+            "scope": "Diagnostic visit plus approved supply-line repair",
+            "verification": "CALLER_SUPPLIED_UNVERIFIED"
+          }
+        ],
+        "severity": "HIGH",
+        "source_receipt": "18a8e8015ce8cabb1485141416bc2f4985be6bb56b3bc794605a9d75c06d9e47",
+        "steps": [
+          "Inspect visible water sources and isolate the affected fixture or supply only if safe.",
+          "Document moisture location and progression before cleanup or repair.",
+          "Compare repair options by scope, evidence, warranty implications, price, and scheduling constraints.",
+          "Present any vendor contact, scheduling, purchase, or warranty action for owner approval before external execution."
+        ]
+      },
+      "protocol_version": "2025-11-25",
+      "quotes": [
+        {
+          "quote_id": "QTE-0002-47d12de16a",
+          "receipt": "2cac810f38163d3a5084600e47f354ce6dba65b5023efef80d1c62499d837e1a",
+          "state": "RECORDED_UNVERIFIED"
+        },
+        {
+          "quote_id": "QTE-0003-5a52a7041e",
+          "receipt": "18a8e8015ce8cabb1485141416bc2f4985be6bb56b3bc794605a9d75c06d9e47",
+          "state": "RECORDED_UNVERIFIED"
+        }
+      ],
+      "stage": "owner_review"
+    }
+  },
+  {
+    "elapsed": 48.547,
+    "path": "/api/step",
+    "request": {
+      "step": "decision",
+      "decision": "APPROVE"
+    },
+    "status": 200,
+    "body": {
+      "action": {
+        "action_id": "ACT-0004-d80cd3a677",
+        "external_effect": false,
+        "receipt": "52792d0dfe53bc540c1418f58a331bfb0652bc502bada7b7c58df0110169a885",
+        "state": "PENDING_OWNER_REVIEW"
+      },
+      "decision": {
+        "action_id": "ACT-0004-d80cd3a677",
+        "external_effect": false,
+        "receipt": "4c3ed7d9e9b3551c386eda10eb7d99d404a5d046f49a1840a42752ac3f4bda6c",
+        "state": "APPROVED_NOT_EXECUTED"
+      },
+      "event_count": 5,
+      "event_receipt": "4c3ed7d9e9b3551c386eda10eb7d99d404a5d046f49a1840a42752ac3f4bda6c",
+      "external_effect": false,
+      "issue": {
+        "issue_id": "ISS-0001-e8db2dff33",
+        "receipt": "0ed5494abf8c73e0b82bcf794e98664a8bd52f04a7cf720dbf9c43f90a684055",
+        "state": "OPEN"
+      },
+      "message": "Approval was recorded, but the provider was not contacted and nothing was executed.",
+      "mode": "SIMULATED_ALEXA_PLUS",
+      "plan": {
+        "authority": {
+          "contact_provider": false,
+          "external_effect": false,
+          "mode": "OWNER_REVIEW_REQUIRED",
+          "purchase": false,
+          "schedule_visit": false
+        },
+        "issue_id": "ISS-0001-e8db2dff33",
+        "plan_digest": "dfc80f88112df16caeb07f65b1735e9e47045bca6712db181e192ab4ba6ff836",
+        "quotes": [
+          {
+            "amount_minor": 24500,
+            "currency": "USD",
+            "provider": "Example Plumbing A",
+            "quote_id": "QTE-0002-47d12de16a",
+            "scope": "Replace supply line if inspection confirms leak",
+            "verification": "CALLER_SUPPLIED_UNVERIFIED"
+          },
+          {
+            "amount_minor": 31000,
+            "currency": "USD",
+            "provider": "Example Plumbing B",
+            "quote_id": "QTE-0003-5a52a7041e",
+            "scope": "Diagnostic visit plus approved supply-line repair",
+            "verification": "CALLER_SUPPLIED_UNVERIFIED"
+          }
+        ],
+        "severity": "HIGH",
+        "source_receipt": "18a8e8015ce8cabb1485141416bc2f4985be6bb56b3bc794605a9d75c06d9e47",
+        "steps": [
+          "Inspect visible water sources and isolate the affected fixture or supply only if safe.",
+          "Document moisture location and progression before cleanup or repair.",
+          "Compare repair options by scope, evidence, warranty implications, price, and scheduling constraints.",
+          "Present any vendor contact, scheduling, purchase, or warranty action for owner approval before external execution."
+        ]
+      },
+      "protocol_version": "2025-11-25",
+      "quotes": [
+        {
+          "quote_id": "QTE-0002-47d12de16a",
+          "receipt": "2cac810f38163d3a5084600e47f354ce6dba65b5023efef80d1c62499d837e1a",
+          "state": "RECORDED_UNVERIFIED"
+        },
+        {
+          "quote_id": "QTE-0003-5a52a7041e",
+          "receipt": "18a8e8015ce8cabb1485141416bc2f4985be6bb56b3bc794605a9d75c06d9e47",
+          "state": "RECORDED_UNVERIFIED"
+        }
+      ],
+      "stage": "decision"
+    }
+  },
+  {
+    "elapsed": 59.265,
+    "path": "/api/step",
+    "request": {
+      "step": "snapshot"
+    },
+    "status": 200,
+    "body": {
+      "action": {
+        "action_id": "ACT-0004-d80cd3a677",
+        "external_effect": false,
+        "receipt": "52792d0dfe53bc540c1418f58a331bfb0652bc502bada7b7c58df0110169a885",
+        "state": "PENDING_OWNER_REVIEW"
+      },
+      "decision": {
+        "action_id": "ACT-0004-d80cd3a677",
+        "external_effect": false,
+        "receipt": "4c3ed7d9e9b3551c386eda10eb7d99d404a5d046f49a1840a42752ac3f4bda6c",
+        "state": "APPROVED_NOT_EXECUTED"
+      },
+      "event_count": 5,
+      "event_receipt": "4c3ed7d9e9b3551c386eda10eb7d99d404a5d046f49a1840a42752ac3f4bda6c",
+      "external_effect": false,
+      "issue": {
+        "issue_id": "ISS-0001-e8db2dff33",
+        "receipt": "0ed5494abf8c73e0b82bcf794e98664a8bd52f04a7cf720dbf9c43f90a684055",
+        "state": "OPEN"
+      },
+      "message": "The event chain replayed successfully; this is a local simulation receipt.",
+      "mode": "SIMULATED_ALEXA_PLUS",
+      "plan": {
+        "authority": {
+          "contact_provider": false,
+          "external_effect": false,
+          "mode": "OWNER_REVIEW_REQUIRED",
+          "purchase": false,
+          "schedule_visit": false
+        },
+        "issue_id": "ISS-0001-e8db2dff33",
+        "plan_digest": "dfc80f88112df16caeb07f65b1735e9e47045bca6712db181e192ab4ba6ff836",
+        "quotes": [
+          {
+            "amount_minor": 24500,
+            "currency": "USD",
+            "provider": "Example Plumbing A",
+            "quote_id": "QTE-0002-47d12de16a",
+            "scope": "Replace supply line if inspection confirms leak",
+            "verification": "CALLER_SUPPLIED_UNVERIFIED"
+          },
+          {
+            "amount_minor": 31000,
+            "currency": "USD",
+            "provider": "Example Plumbing B",
+            "quote_id": "QTE-0003-5a52a7041e",
+            "scope": "Diagnostic visit plus approved supply-line repair",
+            "verification": "CALLER_SUPPLIED_UNVERIFIED"
+          }
+        ],
+        "severity": "HIGH",
+        "source_receipt": "18a8e8015ce8cabb1485141416bc2f4985be6bb56b3bc794605a9d75c06d9e47",
+        "steps": [
+          "Inspect visible water sources and isolate the affected fixture or supply only if safe.",
+          "Document moisture location and progression before cleanup or repair.",
+          "Compare repair options by scope, evidence, warranty implications, price, and scheduling constraints.",
+          "Present any vendor contact, scheduling, purchase, or warranty action for owner approval before external execution."
+        ]
+      },
+      "protocol_version": "2025-11-25",
+      "quotes": [
+        {
+          "quote_id": "QTE-0002-47d12de16a",
+          "receipt": "2cac810f38163d3a5084600e47f354ce6dba65b5023efef80d1c62499d837e1a",
+          "state": "RECORDED_UNVERIFIED"
+        },
+        {
+          "quote_id": "QTE-0003-5a52a7041e",
+          "receipt": "18a8e8015ce8cabb1485141416bc2f4985be6bb56b3bc794605a9d75c06d9e47",
+          "state": "RECORDED_UNVERIFIED"
+        }
+      ],
+      "snapshot": {
+        "actions": [
+          {
+            "action_id": "ACT-0004-d80cd3a677",
+            "action_type": "CONTACT_PROVIDER",
+            "currency": "USD",
+            "external_effect": false,
+            "issue_id": "ISS-0001-e8db2dff33",
+            "max_amount_minor": 24500,
+            "note": "Ask for earliest diagnostic window; do not book automatically.",
+            "state": "APPROVED_NOT_EXECUTED",
+            "target": "Example Plumbing A"
+          }
+        ],
+        "authority": {
+          "external_effect": false,
+          "payment": false,
+          "provider_contact": false,
+          "purchase": false,
+          "scheduling": false
+        },
+        "event_count": 5,
+        "event_receipt": "4c3ed7d9e9b3551c386eda10eb7d99d404a5d046f49a1840a42752ac3f4bda6c",
+        "issues": [
+          {
+            "area": "kitchen",
+            "details": "Slow water leak appears after the faucet runs.",
+            "evidence": [
+              "photo:simulation/sink-cabinet.jpg",
+              "observation:dry when faucet is unused"
+            ],
+            "issue_id": "ISS-0001-e8db2dff33",
+            "severity": "HIGH",
+            "state": "OPEN",
+            "title": "Water collecting under kitchen sink"
+          }
+        ],
+        "quotes": [
+          {
+            "amount_minor": 24500,
+            "currency": "USD",
+            "issue_id": "ISS-0001-e8db2dff33",
+            "provider": "Example Plumbing A",
+            "quote_id": "QTE-0002-47d12de16a",
+            "scope": "Replace supply line if inspection confirms leak",
+            "source": "synthetic simulation quote",
+            "verification": "CALLER_SUPPLIED_UNVERIFIED"
+          },
+          {
+            "amount_minor": 31000,
+            "currency": "USD",
+            "issue_id": "ISS-0001-e8db2dff33",
+            "provider": "Example Plumbing B",
+            "quote_id": "QTE-0003-5a52a7041e",
+            "scope": "Diagnostic visit plus approved supply-line repair",
+            "source": "synthetic simulation quote",
+            "verification": "CALLER_SUPPLIED_UNVERIFIED"
+          }
+        ],
+        "schema": "homeops-relay-snapshot/v1",
+        "snapshot_digest": "d0ee13794c2008a00cc48a2b731ddb2f6ab331236fb4b3c69908a0891c44bc08"
+      },
+      "stage": "receipt",
+      "verification": {
+        "event_count": 5,
+        "receipt": "4c3ed7d9e9b3551c386eda10eb7d99d404a5d046f49a1840a42752ac3f4bda6c",
+        "snapshot_digest": "d0ee13794c2008a00cc48a2b731ddb2f6ab331236fb4b3c69908a0891c44bc08",
+        "verified": true
+      }
+    }
+  },
+  {
+    "elapsed": 69.965,
+    "path": "/api/reset",
+    "request": {},
+    "status": 200,
+    "body": {
+      "event_count": 0,
+      "event_receipt": "7d3e05f0d59c0189f67a838e87454031f894f171390ffa911a0173b6e0618a2d",
+      "external_effect": false,
+      "message": "Ready for the fictional kitchen-leak walkthrough.",
+      "mode": "SIMULATED_ALEXA_PLUS",
+      "protocol_version": "2025-11-25",
+      "stage": "ready"
+    }
+  },
+  {
+    "elapsed": 70.349,
+    "path": "/api/step",
+    "request": {
+      "step": "intake"
+    },
+    "status": 200,
+    "body": {
+      "event_count": 1,
+      "event_receipt": "0ed5494abf8c73e0b82bcf794e98664a8bd52f04a7cf720dbf9c43f90a684055",
+      "external_effect": false,
+      "issue": {
+        "issue_id": "ISS-0001-e8db2dff33",
+        "receipt": "0ed5494abf8c73e0b82bcf794e98664a8bd52f04a7cf720dbf9c43f90a684055",
+        "state": "OPEN"
+      },
+      "message": "Captured the observation as evidence, not as a diagnosis.",
+      "mode": "SIMULATED_ALEXA_PLUS",
+      "protocol_version": "2025-11-25",
+      "stage": "intake"
+    }
+  },
+  {
+    "elapsed": 71.247,
+    "path": "/api/step",
+    "request": {
+      "step": "quotes"
+    },
+    "status": 200,
+    "body": {
+      "event_count": 3,
+      "event_receipt": "18a8e8015ce8cabb1485141416bc2f4985be6bb56b3bc794605a9d75c06d9e47",
+      "external_effect": false,
+      "issue": {
+        "issue_id": "ISS-0001-e8db2dff33",
+        "receipt": "0ed5494abf8c73e0b82bcf794e98664a8bd52f04a7cf720dbf9c43f90a684055",
+        "state": "OPEN"
+      },
+      "message": "Recorded two caller-supplied synthetic quotes; neither is verified.",
+      "mode": "SIMULATED_ALEXA_PLUS",
+      "protocol_version": "2025-11-25",
+      "quotes": [
+        {
+          "quote_id": "QTE-0002-47d12de16a",
+          "receipt": "2cac810f38163d3a5084600e47f354ce6dba65b5023efef80d1c62499d837e1a",
+          "state": "RECORDED_UNVERIFIED"
+        },
+        {
+          "quote_id": "QTE-0003-5a52a7041e",
+          "receipt": "18a8e8015ce8cabb1485141416bc2f4985be6bb56b3bc794605a9d75c06d9e47",
+          "state": "RECORDED_UNVERIFIED"
+        }
+      ],
+      "stage": "quotes"
+    }
+  },
+  {
+    "elapsed": 72.131,
+    "path": "/api/step",
+    "request": {
+      "step": "plan"
+    },
+    "status": 200,
+    "body": {
+      "event_count": 3,
+      "event_receipt": "18a8e8015ce8cabb1485141416bc2f4985be6bb56b3bc794605a9d75c06d9e47",
+      "external_effect": false,
+      "issue": {
+        "issue_id": "ISS-0001-e8db2dff33",
+        "receipt": "0ed5494abf8c73e0b82bcf794e98664a8bd52f04a7cf720dbf9c43f90a684055",
+        "state": "OPEN"
+      },
+      "message": "Built a safety-first plan without selecting or contacting a provider.",
+      "mode": "SIMULATED_ALEXA_PLUS",
+      "plan": {
+        "authority": {
+          "contact_provider": false,
+          "external_effect": false,
+          "mode": "OWNER_REVIEW_REQUIRED",
+          "purchase": false,
+          "schedule_visit": false
+        },
+        "issue_id": "ISS-0001-e8db2dff33",
+        "plan_digest": "dfc80f88112df16caeb07f65b1735e9e47045bca6712db181e192ab4ba6ff836",
+        "quotes": [
+          {
+            "amount_minor": 24500,
+            "currency": "USD",
+            "provider": "Example Plumbing A",
+            "quote_id": "QTE-0002-47d12de16a",
+            "scope": "Replace supply line if inspection confirms leak",
+            "verification": "CALLER_SUPPLIED_UNVERIFIED"
+          },
+          {
+            "amount_minor": 31000,
+            "currency": "USD",
+            "provider": "Example Plumbing B",
+            "quote_id": "QTE-0003-5a52a7041e",
+            "scope": "Diagnostic visit plus approved supply-line repair",
+            "verification": "CALLER_SUPPLIED_UNVERIFIED"
+          }
+        ],
+        "severity": "HIGH",
+        "source_receipt": "18a8e8015ce8cabb1485141416bc2f4985be6bb56b3bc794605a9d75c06d9e47",
+        "steps": [
+          "Inspect visible water sources and isolate the affected fixture or supply only if safe.",
+          "Document moisture location and progression before cleanup or repair.",
+          "Compare repair options by scope, evidence, warranty implications, price, and scheduling constraints.",
+          "Present any vendor contact, scheduling, purchase, or warranty action for owner approval before external execution."
+        ]
+      },
+      "protocol_version": "2025-11-25",
+      "quotes": [
+        {
+          "quote_id": "QTE-0002-47d12de16a",
+          "receipt": "2cac810f38163d3a5084600e47f354ce6dba65b5023efef80d1c62499d837e1a",
+          "state": "RECORDED_UNVERIFIED"
+        },
+        {
+          "quote_id": "QTE-0003-5a52a7041e",
+          "receipt": "18a8e8015ce8cabb1485141416bc2f4985be6bb56b3bc794605a9d75c06d9e47",
+          "state": "RECORDED_UNVERIFIED"
+        }
+      ],
+      "stage": "plan"
+    }
+  },
+  {
+    "elapsed": 73.013,
+    "path": "/api/step",
+    "request": {
+      "step": "request"
+    },
+    "status": 200,
+    "body": {
+      "action": {
+        "action_id": "ACT-0004-d80cd3a677",
+        "external_effect": false,
+        "receipt": "52792d0dfe53bc540c1418f58a331bfb0652bc502bada7b7c58df0110169a885",
+        "state": "PENDING_OWNER_REVIEW"
+      },
+      "event_count": 4,
+      "event_receipt": "52792d0dfe53bc540c1418f58a331bfb0652bc502bada7b7c58df0110169a885",
+      "external_effect": false,
+      "issue": {
+        "issue_id": "ISS-0001-e8db2dff33",
+        "receipt": "0ed5494abf8c73e0b82bcf794e98664a8bd52f04a7cf720dbf9c43f90a684055",
+        "state": "OPEN"
+      },
+      "message": "Contact is only a proposal. No message, booking, or payment was sent.",
+      "mode": "SIMULATED_ALEXA_PLUS",
+      "plan": {
+        "authority": {
+          "contact_provider": false,
+          "external_effect": false,
+          "mode": "OWNER_REVIEW_REQUIRED",
+          "purchase": false,
+          "schedule_visit": false
+        },
+        "issue_id": "ISS-0001-e8db2dff33",
+        "plan_digest": "dfc80f88112df16caeb07f65b1735e9e47045bca6712db181e192ab4ba6ff836",
+        "quotes": [
+          {
+            "amount_minor": 24500,
+            "currency": "USD",
+            "provider": "Example Plumbing A",
+            "quote_id": "QTE-0002-47d12de16a",
+            "scope": "Replace supply line if inspection confirms leak",
+            "verification": "CALLER_SUPPLIED_UNVERIFIED"
+          },
+          {
+            "amount_minor": 31000,
+            "currency": "USD",
+            "provider": "Example Plumbing B",
+            "quote_id": "QTE-0003-5a52a7041e",
+            "scope": "Diagnostic visit plus approved supply-line repair",
+            "verification": "CALLER_SUPPLIED_UNVERIFIED"
+          }
+        ],
+        "severity": "HIGH",
+        "source_receipt": "18a8e8015ce8cabb1485141416bc2f4985be6bb56b3bc794605a9d75c06d9e47",
+        "steps": [
+          "Inspect visible water sources and isolate the affected fixture or supply only if safe.",
+          "Document moisture location and progression before cleanup or repair.",
+          "Compare repair options by scope, evidence, warranty implications, price, and scheduling constraints.",
+          "Present any vendor contact, scheduling, purchase, or warranty action for owner approval before external execution."
+        ]
+      },
+      "protocol_version": "2025-11-25",
+      "quotes": [
+        {
+          "quote_id": "QTE-0002-47d12de16a",
+          "receipt": "2cac810f38163d3a5084600e47f354ce6dba65b5023efef80d1c62499d837e1a",
+          "state": "RECORDED_UNVERIFIED"
+        },
+        {
+          "quote_id": "QTE-0003-5a52a7041e",
+          "receipt": "18a8e8015ce8cabb1485141416bc2f4985be6bb56b3bc794605a9d75c06d9e47",
+          "state": "RECORDED_UNVERIFIED"
+        }
+      ],
+      "stage": "owner_review"
+    }
+  },
+  {
+    "elapsed": 73.897,
+    "path": "/api/step",
+    "request": {
+      "step": "decision",
+      "decision": "REJECT"
+    },
+    "status": 200,
+    "body": {
+      "action": {
+        "action_id": "ACT-0004-d80cd3a677",
+        "external_effect": false,
+        "receipt": "52792d0dfe53bc540c1418f58a331bfb0652bc502bada7b7c58df0110169a885",
+        "state": "PENDING_OWNER_REVIEW"
+      },
+      "decision": {
+        "action_id": "ACT-0004-d80cd3a677",
+        "external_effect": false,
+        "receipt": "281b498f8e2491f1da061b70471c171eb60479d1c0cc25d8a0d946b9bf6040c8",
+        "state": "REJECTED"
+      },
+      "event_count": 5,
+      "event_receipt": "281b498f8e2491f1da061b70471c171eb60479d1c0cc25d8a0d946b9bf6040c8",
+      "external_effect": false,
+      "issue": {
+        "issue_id": "ISS-0001-e8db2dff33",
+        "receipt": "0ed5494abf8c73e0b82bcf794e98664a8bd52f04a7cf720dbf9c43f90a684055",
+        "state": "OPEN"
+      },
+      "message": "The proposal was rejected; no provider contact or other side effect occurred.",
+      "mode": "SIMULATED_ALEXA_PLUS",
+      "plan": {
+        "authority": {
+          "contact_provider": false,
+          "external_effect": false,
+          "mode": "OWNER_REVIEW_REQUIRED",
+          "purchase": false,
+          "schedule_visit": false
+        },
+        "issue_id": "ISS-0001-e8db2dff33",
+        "plan_digest": "dfc80f88112df16caeb07f65b1735e9e47045bca6712db181e192ab4ba6ff836",
+        "quotes": [
+          {
+            "amount_minor": 24500,
+            "currency": "USD",
+            "provider": "Example Plumbing A",
+            "quote_id": "QTE-0002-47d12de16a",
+            "scope": "Replace supply line if inspection confirms leak",
+            "verification": "CALLER_SUPPLIED_UNVERIFIED"
+          },
+          {
+            "amount_minor": 31000,
+            "currency": "USD",
+            "provider": "Example Plumbing B",
+            "quote_id": "QTE-0003-5a52a7041e",
+            "scope": "Diagnostic visit plus approved supply-line repair",
+            "verification": "CALLER_SUPPLIED_UNVERIFIED"
+          }
+        ],
+        "severity": "HIGH",
+        "source_receipt": "18a8e8015ce8cabb1485141416bc2f4985be6bb56b3bc794605a9d75c06d9e47",
+        "steps": [
+          "Inspect visible water sources and isolate the affected fixture or supply only if safe.",
+          "Document moisture location and progression before cleanup or repair.",
+          "Compare repair options by scope, evidence, warranty implications, price, and scheduling constraints.",
+          "Present any vendor contact, scheduling, purchase, or warranty action for owner approval before external execution."
+        ]
+      },
+      "protocol_version": "2025-11-25",
+      "quotes": [
+        {
+          "quote_id": "QTE-0002-47d12de16a",
+          "receipt": "2cac810f38163d3a5084600e47f354ce6dba65b5023efef80d1c62499d837e1a",
+          "state": "RECORDED_UNVERIFIED"
+        },
+        {
+          "quote_id": "QTE-0003-5a52a7041e",
+          "receipt": "18a8e8015ce8cabb1485141416bc2f4985be6bb56b3bc794605a9d75c06d9e47",
+          "state": "RECORDED_UNVERIFIED"
+        }
+      ],
+      "stage": "decision"
+    }
+  },
+  {
+    "elapsed": 83.579,
+    "path": "/api/step",
+    "request": {
+      "step": "snapshot"
+    },
+    "status": 200,
+    "body": {
+      "action": {
+        "action_id": "ACT-0004-d80cd3a677",
+        "external_effect": false,
+        "receipt": "52792d0dfe53bc540c1418f58a331bfb0652bc502bada7b7c58df0110169a885",
+        "state": "PENDING_OWNER_REVIEW"
+      },
+      "decision": {
+        "action_id": "ACT-0004-d80cd3a677",
+        "external_effect": false,
+        "receipt": "281b498f8e2491f1da061b70471c171eb60479d1c0cc25d8a0d946b9bf6040c8",
+        "state": "REJECTED"
+      },
+      "event_count": 5,
+      "event_receipt": "281b498f8e2491f1da061b70471c171eb60479d1c0cc25d8a0d946b9bf6040c8",
+      "external_effect": false,
+      "issue": {
+        "issue_id": "ISS-0001-e8db2dff33",
+        "receipt": "0ed5494abf8c73e0b82bcf794e98664a8bd52f04a7cf720dbf9c43f90a684055",
+        "state": "OPEN"
+      },
+      "message": "The event chain replayed successfully; this is a local simulation receipt.",
+      "mode": "SIMULATED_ALEXA_PLUS",
+      "plan": {
+        "authority": {
+          "contact_provider": false,
+          "external_effect": false,
+          "mode": "OWNER_REVIEW_REQUIRED",
+          "purchase": false,
+          "schedule_visit": false
+        },
+        "issue_id": "ISS-0001-e8db2dff33",
+        "plan_digest": "dfc80f88112df16caeb07f65b1735e9e47045bca6712db181e192ab4ba6ff836",
+        "quotes": [
+          {
+            "amount_minor": 24500,
+            "currency": "USD",
+            "provider": "Example Plumbing A",
+            "quote_id": "QTE-0002-47d12de16a",
+            "scope": "Replace supply line if inspection confirms leak",
+            "verification": "CALLER_SUPPLIED_UNVERIFIED"
+          },
+          {
+            "amount_minor": 31000,
+            "currency": "USD",
+            "provider": "Example Plumbing B",
+            "quote_id": "QTE-0003-5a52a7041e",
+            "scope": "Diagnostic visit plus approved supply-line repair",
+            "verification": "CALLER_SUPPLIED_UNVERIFIED"
+          }
+        ],
+        "severity": "HIGH",
+        "source_receipt": "18a8e8015ce8cabb1485141416bc2f4985be6bb56b3bc794605a9d75c06d9e47",
+        "steps": [
+          "Inspect visible water sources and isolate the affected fixture or supply only if safe.",
+          "Document moisture location and progression before cleanup or repair.",
+          "Compare repair options by scope, evidence, warranty implications, price, and scheduling constraints.",
+          "Present any vendor contact, scheduling, purchase, or warranty action for owner approval before external execution."
+        ]
+      },
+      "protocol_version": "2025-11-25",
+      "quotes": [
+        {
+          "quote_id": "QTE-0002-47d12de16a",
+          "receipt": "2cac810f38163d3a5084600e47f354ce6dba65b5023efef80d1c62499d837e1a",
+          "state": "RECORDED_UNVERIFIED"
+        },
+        {
+          "quote_id": "QTE-0003-5a52a7041e",
+          "receipt": "18a8e8015ce8cabb1485141416bc2f4985be6bb56b3bc794605a9d75c06d9e47",
+          "state": "RECORDED_UNVERIFIED"
+        }
+      ],
+      "snapshot": {
+        "actions": [
+          {
+            "action_id": "ACT-0004-d80cd3a677",
+            "action_type": "CONTACT_PROVIDER",
+            "currency": "USD",
+            "external_effect": false,
+            "issue_id": "ISS-0001-e8db2dff33",
+            "max_amount_minor": 24500,
+            "note": "Ask for earliest diagnostic window; do not book automatically.",
+            "state": "REJECTED",
+            "target": "Example Plumbing A"
+          }
+        ],
+        "authority": {
+          "external_effect": false,
+          "payment": false,
+          "provider_contact": false,
+          "purchase": false,
+          "scheduling": false
+        },
+        "event_count": 5,
+        "event_receipt": "281b498f8e2491f1da061b70471c171eb60479d1c0cc25d8a0d946b9bf6040c8",
+        "issues": [
+          {
+            "area": "kitchen",
+            "details": "Slow water leak appears after the faucet runs.",
+            "evidence": [
+              "photo:simulation/sink-cabinet.jpg",
+              "observation:dry when faucet is unused"
+            ],
+            "issue_id": "ISS-0001-e8db2dff33",
+            "severity": "HIGH",
+            "state": "OPEN",
+            "title": "Water collecting under kitchen sink"
+          }
+        ],
+        "quotes": [
+          {
+            "amount_minor": 24500,
+            "currency": "USD",
+            "issue_id": "ISS-0001-e8db2dff33",
+            "provider": "Example Plumbing A",
+            "quote_id": "QTE-0002-47d12de16a",
+            "scope": "Replace supply line if inspection confirms leak",
+            "source": "synthetic simulation quote",
+            "verification": "CALLER_SUPPLIED_UNVERIFIED"
+          },
+          {
+            "amount_minor": 31000,
+            "currency": "USD",
+            "issue_id": "ISS-0001-e8db2dff33",
+            "provider": "Example Plumbing B",
+            "quote_id": "QTE-0003-5a52a7041e",
+            "scope": "Diagnostic visit plus approved supply-line repair",
+            "source": "synthetic simulation quote",
+            "verification": "CALLER_SUPPLIED_UNVERIFIED"
+          }
+        ],
+        "schema": "homeops-relay-snapshot/v1",
+        "snapshot_digest": "6e9ce31de93b10544e8b7ab9009d5cd9a824bf8d59f91c322d407439abadad60"
+      },
+      "stage": "receipt",
+      "verification": {
+        "event_count": 5,
+        "receipt": "281b498f8e2491f1da061b70471c171eb60479d1c0cc25d8a0d946b9bf6040c8",
+        "snapshot_digest": "6e9ce31de93b10544e8b7ab9009d5cd9a824bf8d59f91c322d407439abadad60",
+        "verified": true
+      }
+    }
+  }
+]

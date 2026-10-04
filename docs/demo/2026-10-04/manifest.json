@@ -1,0 +1,60 @@
+{
+  "source_commit": "16043242dc259e20e13cea0a51cf2cdb7526772a",
+  "workflow_run": "37193704091",
+  "workflow_commit": "b7d7b14a49079deba4216b1dd9ca172825554463",
+  "duration_seconds": 97.68,
+  "video_width": 1280,
+  "video_height": 832,
+  "captions_language": "en",
+  "audio": false,
+  "method": "Playwright video of the unchanged local simulation; FFmpeg adds a separate English caption band",
+  "browser_external_requests": 0,
+  "interaction_count": 14,
+  "approval": {
+    "state": "APPROVED_NOT_EXECUTED",
+    "events": 5,
+    "verified": true,
+    "receipt": "4c3ed7d9e9b3551c386eda10eb7d99d404a5d046f49a1840a42752ac3f4bda6c"
+  },
+  "rejection": {
+    "state": "REJECTED",
+    "events": 5,
+    "verified": true,
+    "receipt": "281b498f8e2491f1da061b70471c171eb60479d1c0cc25d8a0d946b9bf6040c8"
+  },
+  "external_effect": false,
+  "files": {
+    "approval-receipt.png": {
+      "sha256": "e0efd858db4acc57866f4bf2e2e49e884923d68eb06ba9ce26bbd8220cdf63b5",
+      "bytes": 68182
+    },
+    "captions.srt": {
+      "sha256": "87a0362dfdcbee2b4550861c1a985524ff4b3252b8f48f702752777f86843a13",
+      "bytes": 1508
+    },
+    "capture.py": {
+      "sha256": "58f5f9495b15958c915af52cbd72b4090f000e0139f1038334b3afdba8a739d4",
+      "bytes": 10883
+    },
+    "homeops-simulation.mp4": {
+      "sha256": "e4e2e49851747e19180d196b44e3e57e561547d45d2e795a5b38f844ce4c8394",
+      "bytes": 2259138
+    },
+    "interactions.json": {
+      "sha256": "014243ff0171a7d55f39debb2690477eb49a3f310884cae4bf40774f39fc0a42",
+      "bytes": 33315
+    },
+    "rejection.png": {
+      "sha256": "063150aafc0f1e3eb01a5ca9d0aba058e43c2e4aa9c7c0bae22a125a1bb4be00",
+      "bytes": 86405
+    },
+    "scenes.json": {
+      "sha256": "280ce53d7a19c6d53a87bfe039bbb37bd401239f6df0eb08227c34246b796f53",
+      "bytes": 2232
+    },
+    "transcript.md": {
+      "sha256": "8a3d3dc8206eb41abf40ab54fa24bc3737fe747af5aa5890701f538d0b931e12",
+      "bytes": 1501
+    }
+  }
+}

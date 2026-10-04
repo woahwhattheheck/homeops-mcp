@@ -1,0 +1,49 @@
+1
+00:00:02,411 --> 00:00:09,534
+HomeOps Relay: a fictional Alexa+ workflow.
+This is the actual local browser app, not a live Alexa or provider connection.
+
+2
+00:00:10,230 --> 00:00:17,281
+Capture what was observed and its evidence.
+A water leak is recorded without inventing a diagnosis.
+
+3
+00:00:17,966 --> 00:00:27,041
+Compare $245 and $310 example quotes.
+Both remain explicitly synthetic and unverified.
+
+4
+00:00:27,703 --> 00:00:37,801
+Build the plan from the retained case and quote evidence.
+Planning does not choose or contact a provider.
+
+5
+00:00:38,453 --> 00:00:48,519
+The proposed contact stops at PENDING_OWNER_REVIEW.
+Nothing has been sent, booked, purchased or paid.
+
+6
+00:00:49,167 --> 00:00:59,226
+The fictional owner approves the proposal.
+The ledger records APPROVED_NOT_EXECUTED, not a completed external action.
+
+7
+00:00:59,883 --> 00:01:09,934
+Replay verifies all five events and exposes the receipt digest.
+Verification proves this local event chain, not contractor work or payment.
+
+8
+00:01:14,508 --> 00:01:23,548
+A separate reset of the fictional scenario demonstrates rejection.
+The proposal becomes REJECTED and still has no external effect.
+
+9
+00:01:24,199 --> 00:01:33,254
+The rejection also produces a replay-verifiable receipt.
+Observation, provenance, owner control and an inspectable record stay together.
+
+10
+00:01:33,254 --> 00:01:39,293
+Recorded from HomeOps source 16043242 on October 4, 2026.
+Simulation only: no external service, account, booking or payment was used.
