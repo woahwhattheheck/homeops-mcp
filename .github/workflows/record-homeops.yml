@@ -1,0 +1,52 @@
+name: Record shipped HomeOps simulation
+on:
+  push:
+    branches: [demo/homeops-recording-keystone1004]
+    paths: ['work/homeops-recording/capture.py', '.github/workflows/record-homeops.yml']
+permissions:
+  contents: write
+concurrency:
+  group: homeops-recording-keystone1004
+  cancel-in-progress: false
+jobs:
+  record:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 2
+      - name: Prepare recorder dependencies
+        run: |
+          python -m pip install --disable-pip-version-check playwright==1.57.0
+          python -m playwright install ffmpeg
+          command -v google-chrome
+          if ! command -v ffmpeg; then sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg; fi
+      - name: Record actual loopback browser workflow
+        run: |
+          sed -i 's/FontSize=18/FontSize=10/' work/homeops-recording/capture.py
+          python work/homeops-recording/capture.py
+      - name: Publish artifact-only branch
+        env:
+          GIT_AUTHOR_NAME: woahwhattheheck
+          GIT_COMMITTER_NAME: woahwhattheheck
+          GIT_AUTHOR_EMAIL: 293286387+woahwhattheheck@users.noreply.github.com
+          GIT_COMMITTER_EMAIL: 293286387+woahwhattheheck@users.noreply.github.com
+        run: |
+          export GIT_INDEX_FILE="$RUNNER_TEMP/homeops-demo-index"
+          BASE=16043242dc259e20e13cea0a51cf2cdb7526772a
+          git read-tree "$BASE"
+          git add docs/demo/2026-10-04
+          TREE=$(git write-tree)
+          COMMIT=$(printf '%s\n\n%s\n' 'Add recorded HomeOps simulation and source-bound receipts [skip ci]' 'Actual browser footage of the unchanged local simulation demonstrates approve and reject paths, five-event replay verification, and no external effect. Include English captions, transcript, recording procedure and HTTP receipts. No application changes, test rerun, video-platform publication, contest entry, award or payment is asserted.' | git commit-tree "$TREE" -p "$BASE")
+          git push origin "$COMMIT:refs/heads/demo/homeops-recorded-delivery-keystone1004"
+          printf '%s\n' "$COMMIT" > recording-evidence/artifact-commit.txt
+          printf '%s\n' "$TREE" > recording-evidence/artifact-tree.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: homeops-recorded-demo-keystone1004
+          path: |
+            docs/demo/2026-10-04/
+            recording-evidence/
+          retention-days: 14
