@@ -115,6 +115,14 @@ class SimulationSession:
                     },
                 ),
             ]
+            recorded_quotes = {
+                quote["quote_id"]: quote
+                for quote in self._tool(9, "homeops.snapshot", {})["quotes"]
+            }
+            quotes = [
+                {**recorded_quotes[quote["quote_id"]], **quote}
+                for quote in quotes
+            ]
             self.view.update(
                 stage="quotes",
                 message="Recorded two caller-supplied synthetic quotes; neither is verified.",

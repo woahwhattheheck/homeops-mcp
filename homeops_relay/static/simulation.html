@@ -38,7 +38,8 @@
     .state { display:inline-block; font:700 .78rem ui-monospace,monospace; padding:5px 8px; border-radius:999px; background:#12332f; color:#99f6e4; }
     .state.pending { background:#3b2906; color:#fde68a; } .state.rejected { background:#3b101c; color:#fecdd3; }
     ol { margin:8px 0 0; padding-left:20px; color:#d5dee8; }
-    table { width:100%; border-collapse:collapse; font-size:.86rem; } th,td { text-align:left; padding:7px 5px; border-bottom:1px solid var(--line); }
+    table { width:100%; border-collapse:collapse; font-size:.86rem; } th,td { text-align:left; vertical-align:top; padding:7px 5px; border-bottom:1px solid var(--line); overflow-wrap:anywhere; }
+    .quote-source { display:block; margin-top:5px; color:var(--muted); font-size:.76rem; }
     code { font-family:ui-monospace,SFMono-Regular,monospace; color:#a5f3fc; overflow-wrap:anywhere; }
     .empty { color:var(--muted); margin:auto; text-align:center; max-width:340px; }
     footer { color:var(--muted); margin-top:18px; font-size:.8rem; }
@@ -73,9 +74,10 @@ const statusEl=document.querySelector('#status'); const buttons=[...document.que
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 async function post(path,body={}){const r=await fetch(path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});const data=await r.json();if(!r.ok)throw new Error(data.error||'Request failed');return data;}
 function stateClass(v){return v==='PENDING_OWNER_REVIEW'?'pending':v==='REJECTED'?'rejected':''}
+function quoteAmount(q){return q.currency==='USD'?new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(q.amount_minor/100):`${q.currency} ${q.amount_minor} minor units`}
 function render(d){document.querySelector('#protocol').textContent=d.protocol_version||'2025-11-25';let html=`<div class="banner">${esc(d.message)}</div><div class="metrics"><div class="metric"><span class="label">Events</span><b>${esc(d.event_count)}</b></div><div class="metric"><span class="label">External effect</span><b>${d.external_effect?'YES':'NO'}</b></div><div class="metric"><span class="label">Mode</span><b>SIMULATED</b></div></div>`;
 if(d.issue)html+=`<div class="card"><h3>Issue intake</h3><span class="state">OPEN · HIGH</span><p><b>Water collecting under kitchen sink</b><br><span class="label">${esc(d.issue.issue_id)}</span></p></div>`;
-if(d.quotes)html+=`<div class="card"><h3>Synthetic quotes</h3><table><thead><tr><th>Provider</th><th>Amount</th><th>Truth</th></tr></thead><tbody><tr><td>Example Plumbing A</td><td>$245</td><td>Unverified</td></tr><tr><td>Example Plumbing B</td><td>$310</td><td>Unverified</td></tr></tbody></table></div>`;
+if(d.quotes)html+=`<div class="card"><h3>Synthetic quotes</h3><p>Compare the included work: these quotes cover different scopes.</p><table><thead><tr><th>Provider / source</th><th>Amount</th><th>Scope / status</th></tr></thead><tbody>${d.quotes.map(q=>`<tr><td>${esc(q.provider)}<small class="quote-source">${esc(q.source)}</small></td><td>${esc(quoteAmount(q))}</td><td>${esc(q.scope)}<small class="quote-source">${esc(q.verification==='CALLER_SUPPLIED_UNVERIFIED'?'Caller-supplied / unverified':q.verification)}</small></td></tr>`).join('')}</tbody></table></div>`;
 if(d.plan)html+=`<div class="card"><h3>Deterministic plan</h3><ol>${d.plan.steps.map(x=>`<li>${esc(x)}</li>`).join('')}</ol></div>`;
 if(d.action)html+=`<div class="card"><h3>Contact proposal</h3><span class="state ${stateClass(d.action.state)}">${esc(d.action.state)}</span><p>Target: Example Plumbing A<br>External effect: <b>NO</b></p></div>`;
 if(d.decision)html+=`<div class="card"><h3>Owner decision</h3><span class="state ${stateClass(d.decision.state)}">${esc(d.decision.state)}</span><p>External effect: <b>NO</b></p></div>`;
