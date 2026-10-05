@@ -68,6 +68,10 @@ HomeOps must not be presented as that same product. Its distinct scope is an evi
 
 Before formal entry, the entrant must either choose one project or verify that the final HomeOps description, video, feedback, and artifacts satisfy the organizer's unique/substantially-different requirement. Do not claim that this source packet alone establishes eligibility.
 
+## Submission field packet
+
+[Use the evidence-bound Product Feedback, optional friction-log and Open Source mini-challenge draft](SUBMISSION_FIELDS.md). It preserves entrant-only judgments and category choices as explicit confirmations; it is not a submitted form.
+
 ## Final submission checklist
 
 - [ ] Re-read current official rules and deadline.
