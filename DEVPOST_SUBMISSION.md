@@ -47,6 +47,8 @@ Explain the broader product: maintenance histories that survive across turns, co
 
 The repository now includes a clearly labelled simulated Alexa+ experience that uses the real deterministic dispatcher and ledger instead of a canned transcript:
 
+[Judge quickstart: run and verify the simulated experience in about two minutes](JUDGE_QUICKSTART.md).
+
 ```bash
 python -m homeops_relay.simulation
 # open http://127.0.0.1:8765
