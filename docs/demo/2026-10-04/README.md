@@ -1,6 +1,6 @@
 # HomeOps recorded simulation
 
-[Watch the captioned MP4](homeops-simulation.mp4) · [English transcript](transcript.md) · [Source and file manifest](manifest.json) · [Actual HTTP interactions](interactions.json).
+[Watch the captioned MP4](homeops-simulation.mp4) · [Public video publication packet](PUBLICATION_PACKET.md) · [English transcript](transcript.md) · [Source and file manifest](manifest.json) · [Actual HTTP interactions](interactions.json).
 
 This is a real browser recording of the unchanged simulation at `16043242dc259e20e13cea0a51cf2cdb7526772a`, not a staged mockup or live Alexa/provider integration. Two fictional runs show the approve and reject branches of the real Dispatcher/HomeOpsLedger. Both five-event chains verify; external effects remain false. The MP4 is silent and has burned-in English captions; the SRT is also included. Duration: 97.68 seconds.
 
