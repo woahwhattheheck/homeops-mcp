@@ -9,6 +9,7 @@ from typing import Any
 
 from .mcp_server import Dispatcher, MCP_PROTOCOL_VERSION
 from .reporting import render_report
+from .simulation_http_guard import allow_local_request
 
 
 STATIC_FILE = Path(__file__).with_name("static") / "simulation.html"
@@ -236,7 +237,19 @@ class SimulationHandler(BaseHTTPRequestHandler):
     def log_message(self, fmt: str, *args: Any) -> None:
         return
 
+    def _request_allowed(self, *, require_json: bool = False) -> bool:
+        return allow_local_request(
+            self.headers.get_all("Host") or [],
+            self.headers.get_all("Origin") or [],
+            self.server.server_port,
+            require_json=require_json,
+            content_type=self.headers.get("Content-Type"),
+        )
+
     def do_GET(self) -> None:  # noqa: N802 - BaseHTTPRequestHandler API
+        if not self._request_allowed():
+            self._json_response(403, {"error": "non-loopback Host or cross-origin request"})
+            return
         if self.path == "/api/state":
             self._json_response(200, self.session.payload())
             return
@@ -254,6 +267,9 @@ class SimulationHandler(BaseHTTPRequestHandler):
         self.wfile.write(body)
 
     def do_POST(self) -> None:  # noqa: N802 - BaseHTTPRequestHandler API
+        if not self._request_allowed(require_json=True):
+            self._json_response(403, {"error": "non-local origin or unsupported JSON content type"})
+            return
         if self.path not in {"/api/reset", "/api/step"}:
             self._json_response(404, {"error": "not found"})
             return
